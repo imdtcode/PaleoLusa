@@ -1,0 +1,906 @@
+\documentclass[a4paper,11pt]{report}
+
+% ========================= PACOTES =============================
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{graphicx}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{float}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+
+\usepackage{parskip}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric}
+
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{booktabs}
+
+% ========================= HIPERLIGAÇÕES =============================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    citecolor=black
+}
+
+% ========================= COMANDOS ÚTEIS =============================
+\newcommand{\code}[1]{\texttt{#1}}
+
+\setlength{\parskip}{0.35em}
+\setlength{\parindent}{0pt}
+
+% ========================= LISTINGS =============================
+\definecolor{lightgray}{RGB}{245,245,245}
+\definecolor{darkgreen}{RGB}{0,128,0}
+
+\lstdefinelanguage{csharp}{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{red},
+    morecomment=[l]{//},
+    morecomment=[s]{/*}{*/},
+    morekeywords={class,struct,void,int,float,double,bool,var,null,const,
+        override,enum,public,private,protected,using,namespace,static,
+        new,this,return,if,else,true,false,string,Vector3,Quaternion,
+        MonoBehaviour,Transform,GameObject,Camera,CharacterController,
+        RequireComponent,DefaultExecutionOrder,Header,SerializeField,
+        Time,Mathf,Physics,Debug,Animator,LayerMask,RaycastHit,
+        List,Key,Gamepad},
+    breaklines=true,
+    showstringspaces=false,
+    tabsize=4,
+}
+
+\lstset{
+    language=csharp,
+    backgroundcolor=\color{lightgray},
+    frame=single,
+    breaklines=true,
+    aboveskip=0.5em,
+    belowskip=0.5em,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    numbersep=5pt,
+}
+
+% ========================= TIKZ =============================
+\tikzset{
+    comp/.style={rectangle, draw, rounded corners, minimum width=4.4cm,
+        minimum height=1cm, align=center, font=\small},
+    arrow/.style={-{Latex}, thick},
+}
+
+\begin{document}
+
+% ============================= CAPA ===============================
+\begin{titlepage}
+    \centering
+
+    \includegraphics[width=0.33\textwidth]{logo_ubi.jpg}\\[0.7cm]
+
+    {\large Universidade da Beira Interior}\\[0.2cm]
+    {\large Departamento de Informática}\\[0.6cm]
+
+    {\large Licenciatura em Engenharia Informática}\\[0.2cm]
+    {\large Unidade Curricular: Projeto Final}\\[1.0cm]
+
+    {\Huge\bfseries PaleoLusa}\\[0.2cm]
+    {\large Protótipo XR sobre o Jurássico da Lourinhã}\\[1.0cm]
+
+    {\large Relatório Técnico}\\[0.6cm]
+
+    {\large Autor:}\\[0.25cm]
+    Daniel Cardoso (Nº 52218)\\[0.8cm]
+
+    {\large Covilhã, Março de 2026}
+\end{titlepage}
+
+% =========================== RESUMO ===============================
+\chapter*{Resumo}
+\addcontentsline{toc}{chapter}{Resumo}
+
+Este relatório descreve o desenvolvimento de um protótipo XR em Unity centrado
+no Jurássico da Lourinhã, com foco em edutainment. A aplicação permite ao
+utilizador explorar um ambiente virtual inspirado num cenário jurássico, observar
+dinossauros animados e aceder a conteúdos educativos através de interfaces
+diegéticas integradas no mundo 3D.
+
+O protótipo inclui três dinossauros principais: \textit{Stegosaurus},
+\textit{Pachycephalosaurus} e \textit{Velociraptor}. Cada um possui animações,
+elementos de áudio, colisores simplificados e painéis educativos próprios.
+A interação com os dinossauros permite apresentar diferentes tipos de informação,
+incluindo dados gerais da espécie, comparação de escala com um ser humano e uma
+visualização anatómica/``raio-X''.
+
+O projeto privilegia uma abordagem imersiva, evitando menus tradicionais fixos à
+câmara e optando por painéis espaciais que acompanham a posição do utilizador,
+mantendo a legibilidade em contexto XR. Para além da componente visual e
+interativa, foram consideradas questões de desempenho, escala, estabilidade
+técnica e preparação para utilização em dispositivos de Realidade Virtual.
+
+\tableofcontents
+
+% ======================= INTRODUÇÃO ===============================
+\chapter{Introdução}
+
+\section{Descrição da Proposta}
+
+O projeto \textit{PaleoLusa} consiste no desenvolvimento de uma aplicação XR
+em Unity centrada no Jurássico da Lourinhã. O objetivo é combinar imersão e
+aprendizagem, permitindo ao utilizador explorar um ambiente jurássico e
+interagir com dinossauros em escala aproximada, através de interfaces educativas
+integradas no mundo virtual.
+
+A experiência é orientada para edutainment, procurando apresentar conteúdos
+científicos de forma acessível, visual e interativa. Em vez de recorrer apenas
+a texto estático ou menus tradicionais, o projeto explora interfaces diegéticas
+junto dos dinossauros, reforçando a sensação de presença e a ligação entre o
+conteúdo educativo e o objeto observado.
+
+\section{Enquadramento e Estado da Arte}
+
+Tecnologias XR (VR/AR) são usadas em museus e património científico para tornar
+conteúdos complexos mais fáceis de compreender. Em paleontologia, isto é
+especialmente útil porque permite mostrar aquilo que uma exposição tradicional
+nem sempre consegue: \textbf{escala real}, \textbf{anatomia},
+\textbf{movimento/comportamento} e \textbf{contexto ambiental} de animais extintos.
+
+Neste projeto, o objetivo é criar um protótipo XR em Unity sobre o
+\textbf{Jurássico da Lourinhã}, combinando imersão e aprendizagem. A
+experiência foca-se em ganhos educativos imediatos: observação dos dinossauros
+em ambiente 3D, comparação de escala com humanos e visualização anatómica
+através de painéis do tipo ``raio-X''.
+
+A literatura e a prática em XR para paleontologia e património indicam que o
+sucesso destas experiências depende sobretudo do design:
+
+\begin{itemize}
+    \setlength\itemsep{0pt}
+    \item \textbf{Acesso sem fricção}: a adoção pode ser limitada quando o
+          utilizador precisa de muitos passos para começar;
+    \item \textbf{Valor claro}: o efeito novidade não é suficiente; a
+          experiência tem de mostrar algo que não se consegue ver ou fazer
+          facilmente de outra forma;
+    \item \textbf{Educação leve e contextual}: informação curta e acionada
+          por interação funciona melhor do que texto longo permanente no ecrã;
+    \item \textbf{Qualidade visual e animação}: representações fracas reduzem
+          impacto e credibilidade.
+\end{itemize}
+
+Com base nestes pontos, o protótipo privilegia interações curtas e claras,
+interfaces espaciais e um escopo controlado, focando a qualidade da experiência
+e a aprendizagem imediata.
+
+\section{Objetivos do Projeto}
+
+Os principais objetivos do projeto são:
+
+\begin{itemize}
+    \setlength\itemsep{0pt}
+    \item Desenvolver um protótipo XR em Unity com ambiente explorável;
+    \item Integrar múltiplos dinossauros animados e ajustados à escala do
+          cenário;
+    \item Implementar interações educativas através de UI diegética;
+    \item Criar painéis informativos com informação geral, comparação de
+          escala e visualização anatómica;
+    \item Preparar a experiência para utilização em Realidade Virtual;
+    \item Otimizar o protótipo para garantir estabilidade e fluidez;
+    \item Documentar e justificar as principais decisões técnicas e de design.
+\end{itemize}
+
+\section{Organização do Documento}
+
+Este relatório encontra-se organizado da seguinte forma:
+
+\begin{itemize}
+    \setlength\itemsep{0pt}
+    \item \textbf{Capítulo 1:} Introdução, enquadramento e objetivos;
+    \item \textbf{Capítulo 2:} Metodologia, planeamento e ferramentas
+          utilizadas;
+    \item \textbf{Capítulo 3:} Implementação do ambiente, dinossauros,
+          interação e UI;
+    \item \textbf{Capítulo 4:} Avaliação e testes;
+    \item \textbf{Capítulo 5:} Resultados e discussão;
+    \item \textbf{Capítulo 6:} Conclusões e trabalho futuro.
+\end{itemize}
+
+% ======================= METODOLOGIA ===============================
+\chapter{Metodologia e Planeamento}
+
+\section{Abordagem de Desenvolvimento}
+
+O desenvolvimento do projeto segue uma abordagem incremental, organizada por
+fases. Numa primeira etapa, o foco recaiu sobre investigação, curadoria
+científica, seleção de referências visuais e prototipagem inicial de escala.
+Seguidamente, procedeu-se à construção do ambiente, integração dos modelos 3D
+e implementação das animações dos dinossauros.
+
+Numa fase posterior, foram introduzidas as componentes educativas e de
+interação, nomeadamente interfaces diegéticas com múltiplos painéis. Por fim,
+o trabalho passou a focar-se em polimento, correção de erros, otimização para
+Realidade Virtual e documentação do processo.
+
+Esta abordagem permitiu validar funcionalidades de forma progressiva, reduzindo
+o risco de concentrar o desenvolvimento apenas na fase final.
+
+\section{Ferramentas e Tecnologias}
+
+As principais ferramentas e tecnologias utilizadas são:
+
+\begin{itemize}
+    \setlength\itemsep{0pt}
+    \item \textbf{Unity 6}, como motor principal de desenvolvimento;
+    \item \textbf{C\#}, para scripting e controlo dos sistemas interativos;
+    \item \textbf{XR Interaction Toolkit 3.4.0}, para interação em contexto
+          de Realidade Virtual;
+    \item \textbf{XR Interaction Simulator}, para testar interações sem
+          necessidade constante do headset;
+    \item \textbf{Blender}, para eventuais ajustes de escala, importação ou
+          preparação de modelos 3D;
+    \item \textbf{Git e GitHub}, para controlo de versões;
+    \item \textbf{Git LFS}, para gestão de ficheiros de maior dimensão.
+\end{itemize}
+
+\section{Cronograma (Alto Nível)}
+
+O cronograma do projeto encontra-se estruturado da seguinte forma:
+
+\begin{itemize}
+    \item \textbf{Fevereiro --- Investigação e Prototipagem de Escala:}
+    estudo sobre turismo científico e XR, seleção dos dinossauros e do
+    ambiente a representar, configuração inicial do Unity e criação de uma
+    base de escala.
+
+    \item \textbf{Março --- Construção do Ambiente e Integração 3D:}
+    importação de modelos 3D, configuração de materiais, iluminação,
+    animações e comportamentos básicos dos dinossauros.
+
+    \item \textbf{Abril --- Narrativa Educativa e UI:}
+    criação de painéis informativos, comparação de escala, visualização
+    anatómica e integração da UI diegética.
+
+    \item \textbf{Maio --- Otimização, Testes e Escrita:}
+    testes de usabilidade, otimização de desempenho, recolha de feedback,
+    correção de erros e redação dos capítulos finais.
+
+    \item \textbf{Junho --- Entrega e Defesa:}
+    entrega do projeto e do relatório final, seguida de apresentação e
+    defesa pública.
+\end{itemize}
+
+% ======================= IMPLEMENTAÇÃO ===============================
+\chapter{Implementação}
+
+\section{Arquitetura Geral do Sistema}
+
+O projeto está organizado num conjunto de scripts C\# independentes que
+comunicam entre si através de referências directas e de membros estáticos.
+A Figura~\ref{fig:arch} ilustra as principais componentes e as suas relações.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=1.3cm and 2.2cm]
+
+    % Coluna esquerda
+    \node[comp] (xro) {XR Origin\\(XR Rig)};
+    \node[comp, below=of xro] (grav) {GravityProvider\\(Locomotion/Gravity)};
+    \node[comp, below=of grav] (move) {ContinuousMoveProvider\\(Locomotion/Move)};
+    \node[comp, below=of move] (vrin) {VRInputHandler};
+
+    % Coluna direita
+    \node[comp, right=of xro] (cam) {Main Camera\\(TrackedPoseDriver)};
+    \node[comp, right=of grav] (sw) {DinoPanelSwitcher\\(por dinossauro)};
+    \node[comp, right=of move] (lk) {DinoPanelLookAtPlayer\\(por painel)};
+    \node[comp, right=of vrin] (anim) {DinoAnimationCycle\\(por dinossauro)};
+
+    % Setas
+    \draw[arrow] (xro) -- (cam);
+    \draw[arrow] (xro) -- (grav);
+    \draw[arrow] (xro) -- (move);
+    \draw[arrow] (xro) -- (vrin);
+    \draw[arrow] (vrin) -- (sw);
+    \draw[arrow] (sw)  -- (lk);
+    \draw[arrow] (sw)  -- (anim);
+    \draw[arrow] (cam) -- (lk);
+
+\end{tikzpicture}
+\caption{Arquitetura simplificada dos sistemas do protótipo.}
+\label{fig:arch}
+\end{figure}
+
+O \code{XR Origin (XR Rig)} é o prefab central fornecido pelo XR Interaction
+Toolkit. Sobre ele assentam todos os sistemas de locomoção e o nó de câmara.
+Os scripts de lógica de jogo (\code{DinoPanelSwitcher},
+\code{DinoPanelLookAtPlayer}, \code{DinoAnimationCycle}) estão associados a
+cada dinossauro individualmente, permitindo uma estrutura modular.
+
+\section{Cenário e Ambiente}
+
+O ambiente virtual foi desenvolvido em Unity com o objetivo de representar uma
+interpretação visual de um ecossistema jurássico. O cenário inclui terreno
+tridimensional gerado por múltiplos tiles de \textit{Terrain} do Unity,
+vegetação, rochas, zonas de relevo e iluminação ambiental, procurando evitar
+a sensação de ``caixa vazia'' e reforçar a narrativa ambiental.
+
+O terreno é composto por tiles de 1000 $\times$ 1000 unidades. A camada
+\textit{Ground} foi atribuída ao \textit{TerrainCollider} de cada tile, sendo
+essa camada usada para deteção de solo pelos sistemas de física. A posição de
+início do jogador fica próxima de $(-355, -31, 335)$ em coordenadas mundiais,
+numa zona onde a superfície do terreno tem uma altitude negativa relativa à
+origem da cena.
+
+Durante o desenvolvimento foram realizados ajustes de escala entre o cenário,
+o jogador e os dinossauros. Esta etapa revelou-se essencial, uma vez que em XR
+a perceção de tamanho e distância tem impacto direto na sensação de presença.
+Foram também efetuadas alterações ao cenário para melhorar a performance e
+reduzir a complexidade visual.
+
+\section{Integração dos Dinossauros}
+
+Foram integrados três dinossauros principais:
+
+\begin{itemize}
+    \setlength\itemsep{0pt}
+    \item \textbf{Stegosaurus} --- herbívoro de grande porte, com placas
+          dorsais características;
+    \item \textbf{Pachycephalosaurus} --- dinossauro de cúpula craniana
+          espessa, de médio porte;
+    \item \textbf{Velociraptor} --- carnívoro ágil de pequeno porte.
+\end{itemize}
+
+Cada dinossauro foi configurado com modelos 3D adquiridos em pacotes de assets,
+animações, áudio e componentes de interação. As animações incluem estados como
+repouso (\textit{idle}), caminhada, corrida e outros comportamentos específicos
+fornecidos pelos próprios assets.
+
+Para a componente física, foram utilizados colliders simplificados,
+nomeadamente \textit{Capsule Collider} e \textit{Box Collider}. Esta escolha
+foi feita por motivos de desempenho e estabilidade, evitando o uso de
+\textit{Mesh Colliders} complexos nos dinossauros.
+
+\section{Sistema de Animação dos Dinossauros}
+
+Para evitar que os dinossauros permaneçam permanentemente no mesmo estado de
+animação, foi implementado o script \code{DinoAnimationCycle}. Este script
+alterna periodicamente entre animações configuradas no \textit{Animator} de
+cada dinossauro, tornando o comportamento mais natural e dinâmico.
+
+\begin{lstlisting}[caption={Excerto de DinoAnimationCycle.cs --- ciclo de animação.},
+                   label={lst:animcycle}]
+using UnityEngine;
+
+public class DinoAnimationCycle : MonoBehaviour
+{
+    public Animator animator;
+    public string[] animationTriggers;
+    public float minInterval = 5f;
+    public float maxInterval = 12f;
+
+    private float _timer;
+
+    void Start() => ScheduleNext();
+
+    void Update()
+    {
+        _timer -= Time.deltaTime;
+        if (_timer <= 0f)
+        {
+            if (animationTriggers.Length > 0)
+            {
+                int idx = Random.Range(0, animationTriggers.Length);
+                animator.SetTrigger(animationTriggers[idx]);
+            }
+            ScheduleNext();
+        }
+    }
+
+    void ScheduleNext() =>
+        _timer = Random.Range(minInterval, maxInterval);
+}
+\end{lstlisting}
+
+Durante a interação educativa, as animações são pausadas através do
+\code{DinoPanelSwitcher} (ver Secção~\ref{sec:panels}), que define
+\code{animator.speed = 0f} enquanto o painel está aberto.
+
+\section{Sistema de Painéis Educativos}
+\label{sec:panels}
+
+Uma das funcionalidades centrais do projeto é o sistema de UI diegética.
+Em vez de utilizar menus tradicionais fixos à câmara, a informação é
+apresentada através de painéis tridimensionais integrados no ambiente e
+associados diretamente a cada dinossauro.
+
+Ao interagir com um dinossauro, surge um painel junto ao animal. Este painel
+contém três modos principais, todos implementados na UI diegética:
+
+\begin{itemize}
+    \setlength\itemsep{0pt}
+    \item \textbf{Informação}: dados gerais sobre a espécie, dieta, período
+          e características principais;
+    \item \textbf{Comparação}: relação de escala entre o dinossauro e um
+          ser humano, com representação visual integrada no painel;
+    \item \textbf{Raio-X}: representação anatómica do dinossauro através de
+          imagem integrada no painel.
+\end{itemize}
+
+Os três painéis estão implementados e funcionais. O conteúdo visual final
+(imagens de referência científica para os modos Comparação e Raio-X)
+encontra-se em fase de preparação e integração.
+
+O script \code{DinoPanelSwitcher} gere todo o ciclo de vida do painel de
+cada dinossauro. Utiliza uma lista estática de instâncias para garantir que
+apenas um painel pode estar aberto em simultâneo.
+
+\begin{lstlisting}[caption={Excerto de DinoPanelSwitcher.cs --- abertura e fecho de painéis.},
+                   label={lst:switcher}]
+public class DinoPanelSwitcher : MonoBehaviour
+{
+    private static DinoPanelSwitcher openInstance;
+
+    public GameObject dinoInfoRoot;
+    public GameObject infoPanel;
+    public GameObject comparePanel;
+    public GameObject xrayPanel;
+    public Animator animator;
+
+    private int currentPanel;
+    private bool isOpen;
+
+    public void TogglePanel()
+    {
+        if (isOpen) ForceClose();
+        else        ForceOpen();
+    }
+
+    public static void NextOpenPanel()
+    {
+        if (openInstance != null)
+            openInstance.NextPanel();
+    }
+
+    private void ForceOpen()
+    {
+        if (openInstance != null && openInstance != this)
+            openInstance.ForceClose();
+
+        isOpen = true;
+        openInstance = this;
+        dinoInfoRoot.SetActive(true);
+        ShowPanel(currentPanel);
+        if (animator != null) animator.speed = 0f;
+    }
+
+    private void ForceClose()
+    {
+        isOpen = false;
+        currentPanel = 0;
+        dinoInfoRoot.SetActive(false);
+        openInstance = null;
+        if (animator != null) animator.speed = 1f;
+    }
+
+    private void ShowPanel(int index)
+    {
+        currentPanel = Mathf.Clamp(index, 0, 2);
+        infoPanel.SetActive(currentPanel == 0);
+        comparePanel.SetActive(currentPanel == 1);
+        xrayPanel.SetActive(currentPanel == 2);
+    }
+}
+\end{lstlisting}
+
+\subsection{Orientação do Painel para o Utilizador}
+
+Os painéis seguem a orientação do utilizador através do script
+\code{DinoPanelLookAtPlayer}. Quando o painel é ativado, regista a direção
+horizontal da câmara do utilizador em relação ao dinossauro e mantém essa
+posição durante toda a interação.
+
+\begin{lstlisting}[caption={Excerto de DinoPanelLookAtPlayer.cs --- seguimento do utilizador.},
+                   label={lst:look}]
+public class DinoPanelLookAtPlayer : MonoBehaviour
+{
+    public Camera playerCamera;
+    public Transform dinosaur;
+    public float orbitDistance = 1.2f;
+    public float heightOffset  = 0.8f;
+    public float rotationSpeed = 10f;
+
+    private bool    positionSet;
+    private Vector3 _dinoOffset;
+
+    void OnEnable() { positionSet = false; }
+
+    void LateUpdate()
+    {
+        if (playerCamera == null || dinosaur == null) return;
+
+        // Fixa a posicao uma vez ao abrir
+        if (!positionSet)
+        {
+            Vector3 dir = Vector3.ProjectOnPlane(
+                -playerCamera.transform.forward, Vector3.up);
+            if (dir.sqrMagnitude > 0.001f)
+            {
+                _dinoOffset = dir.normalized * orbitDistance
+                            + Vector3.up * heightOffset;
+                positionSet = true;
+            }
+        }
+
+        if (positionSet)
+            transform.position = dinosaur.position + _dinoOffset;
+
+        // Rotacao suave orientada para a camara
+        Vector3 fullDir = -playerCamera.transform.forward;
+        float hMag = new Vector2(fullDir.x, fullDir.z).magnitude;
+        if (hMag > 0.001f)
+        {
+            float maxY = hMag * Mathf.Tan(40f * Mathf.Deg2Rad);
+            fullDir.y = Mathf.Clamp(fullDir.y, -maxY, maxY);
+            Quaternion target = Quaternion.LookRotation(
+                fullDir.normalized) * Quaternion.Euler(0f, 180f, 0f);
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation, target,
+                Time.deltaTime * rotationSpeed);
+        }
+    }
+}
+\end{lstlisting}
+
+\section{Sistema de Locomoção e Gravidade XR}
+\label{sec:locomotion}
+
+A locomoção do utilizador em XR é uma das componentes mais sensíveis do
+projeto. O XR Interaction Toolkit 3.4.0 fornece o prefab
+\textbf{XR Origin (XR Rig)}, que inclui:
+
+\begin{itemize}
+    \setlength\itemsep{0pt}
+    \item Um \textit{CharacterController} com altura 1,8 m, centro em Y = 0,9 m
+          e raio 0,25 m;
+    \item Um \code{ContinuousMoveProvider} para locomoção contínua (WASD/joystick);
+    \item Um \code{GravityProvider} para aplicar gravidade;
+    \item Um \code{XRBodyTransformer} que integra todos os fornecedores de
+          locomoção com o \textit{CharacterController}.
+\end{itemize}
+
+\subsection{GravityProvider}
+
+O \code{GravityProvider} foi a solução escolhida para aplicar gravidade ao
+jogador. Ao contrário de scripts personalizados que chamam diretamente
+\code{CharacterController.Move()}, o \code{GravityProvider} processa o
+movimento através do \code{XRBodyTransformer}, o que garante que a posição
+da câmara simulada (via \code{TrackedPoseDriver}) é actualizada em
+sincronismo com o corpo físico do jogador.
+
+As definições mais relevantes do \code{GravityProvider} utilizadas no
+projeto constam da Tabela~\ref{tab:gravity}.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ll}
+\toprule
+\textbf{Parâmetro} & \textbf{Valor} \\
+\midrule
+Use Gravity                    & Ativado \\
+Use Local Space Gravity        & Desativado \\
+Update Character Controller Center & Desativado \\
+Terminal Velocity              & 90 m/s \\
+Gravity Acceleration Modifier  & 1 \\
+Sphere Cast Layer Mask         & Ground \\
+\bottomrule
+\end{tabular}
+\caption{Configuração do GravityProvider no XR Origin.}
+\label{tab:gravity}
+\end{table}
+
+As definições \textbf{Use Local Space Gravity} e
+\textbf{Update Character Controller Center} foram desativadas para evitar
+conflitos com o \textit{XR Interaction Simulator} durante o desenvolvimento.
+A camada \textit{Ground} no \textit{Sphere Cast Layer Mask} limita a deteção
+de solo apenas ao \textit{TerrainCollider} do cenário, evitando falsos
+positivos com outros colisores da cena.
+
+\subsection{Limitação de Área com XRBoundsConstraint}
+
+Para evitar que o jogador saia dos limites do terreno, foi implementado o
+script \code{XRBoundsConstraint}. Este script corre em \code{LateUpdate} e
+restringe a posição do \textit{XR Origin} a uma caixa definida em
+coordenadas mundiais, com margem de segurança configurável.
+
+A restrição é aplicada apenas nos eixos X e Z (horizontal), deixando o eixo
+Y livre para a gravidade actuar normalmente. Uma configuração incorreta que
+restrinja também o Y cria conflito com a gravidade, causando oscilação
+vertical.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ll}
+\toprule
+\textbf{Parâmetro} & \textbf{Valor} \\
+\midrule
+World Center & $(-355,\; -30{,}77,\; 335{,}52)$ \\
+World Size   & $(800,\; 5,\; 800)$ \\
+Constrain Y  & Desativado \\
+Padding      & 0,25 m \\
+\bottomrule
+\end{tabular}
+\caption{Configuração do XRBoundsConstraint.}
+\label{tab:bounds}
+\end{table}
+
+\section{Mapeamento de Controlos VR}
+
+O script \code{VRInputHandler} centraliza toda a lógica de entrada dos
+controladores VR num único componente colocado no \textit{XR Origin}. Desta
+forma evitam-se conflitos com os bindings internos do XR Interaction Toolkit
+(locomoção, teleporte, agarrar).
+
+A Tabela~\ref{tab:controls} resume o mapeamento implementado.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Botão (controlador direito)} & \textbf{Ação XRI} & \textbf{Função} \\
+\midrule
+A & \textit{buttonSouth} & Abrir/fechar painel do dinossauro apontado \\
+B & \textit{buttonEast}  & Ciclar sub-painel (Info $\to$ Comparação $\to$ Raio-X) \\
+X & \textit{buttonWest}  & Fechar painel aberto \\
+Y, gatilhos, grip & --- & Reservados para locomoção XRI \\
+\bottomrule
+\end{tabular}
+\caption{Mapeamento de botões dos controladores VR.}
+\label{tab:controls}
+\end{table}
+
+A interação com os dinossauros baseia-se num \textit{Raycast} a partir da
+câmara. Quando o jogador prime o botão A a apontar para um dinossauro, o
+script deteta o componente \code{DinoPanelSwitcher} no objeto atingido e
+chama \code{TogglePanel()}. Se o raio não atingir nenhum dinossauro, o
+painel aberto é fechado.
+
+\begin{lstlisting}[caption={Excerto de VRInputHandler.cs --- lógica de raycast e botões.},
+                   label={lst:vrinput}]
+void Update()
+{
+    if (_cam == null)    _cam = FindActiveCamera();
+    if (_cam == null || Gamepad.current == null) return;
+
+    // Botao A --- abrir/fechar painel do dino apontado
+    if (Gamepad.current.buttonSouth.wasPressedThisFrame)
+    {
+        DinoPanelSwitcher pointed = GetPointedDino();
+        if (pointed != null) pointed.TogglePanel();
+        else                 DinoPanelSwitcher.CloseOpenPanel();
+    }
+
+    // Botao B --- ciclar sub-paineis
+    if (Gamepad.current.buttonEast.wasPressedThisFrame)
+        DinoPanelSwitcher.NextOpenPanel();
+
+    // Botao X --- fechar painel
+    if (Gamepad.current.buttonWest.wasPressedThisFrame)
+        DinoPanelSwitcher.CloseOpenPanel();
+}
+
+private DinoPanelSwitcher GetPointedDino()
+{
+    if (Physics.Raycast(_cam.transform.position,
+                        _cam.transform.forward,
+                        out RaycastHit hit, rayDistance))
+        return hit.collider.GetComponentInParent<DinoPanelSwitcher>();
+    return null;
+}
+\end{lstlisting}
+
+\section{Desempenho e Otimização}
+
+A otimização é um aspeto crítico em aplicações XR, uma vez que quebras de
+desempenho podem causar desconforto ao utilizador. Durante o desenvolvimento
+foram consideradas várias medidas:
+
+\begin{itemize}
+    \setlength\itemsep{0pt}
+    \item Redução de objetos desnecessários no cenário;
+    \item Utilização de colliders simplificados (\textit{Capsule}/\textit{Box})
+          em vez de \textit{Mesh Collider};
+    \item Utilização de materiais \textit{Unlit} em elementos de interface
+          para evitar influência indesejada da iluminação;
+    \item Preparação para \textit{baking} de iluminação;
+    \item Separação entre elementos visuais e elementos interativos;
+    \item Script de gravidade com instância única, verificada em cada frame
+          para evitar cálculos redundantes.
+\end{itemize}
+
+Estas decisões procuram garantir maior estabilidade em dispositivos VR,
+especialmente no Meta Quest, onde a performance é um fator determinante para
+a qualidade da experiência.
+
+\section{Narrativa Sonora e Audioguia}
+
+A componente de áudio é fundamental para reforçar a imersão e responder ao
+objetivo de incluir uma narrativa turística associada a cada dinossauro.
+Foram já integrados efeitos sonoros nas animações dos dinossauros (rugidos,
+movimentos) através dos próprios assets de terceiros. A implementação de um
+audioguia por espécie, com narração informativa acionada quando o utilizador
+abre o painel educativo, encontra-se em curso e será integrada na versão final
+do protótipo.
+
+% ======================= AVALIAÇÃO ===============================
+\chapter{Avaliação}
+
+\section{Protocolo de Testes}
+
+A avaliação do protótipo foi realizada através de sessões de teste informais
+com dois utilizadores não especializados em tecnologias XR. Cada participante
+explorou o ambiente em modo editor com XR Interaction Simulator, interagiu com
+os dinossauros e consultou os painéis educativos disponíveis.
+
+A sessão incluiu as seguintes tarefas:
+
+\begin{itemize}
+    \setlength\itemsep{0pt}
+    \item Explorar o cenário livremente;
+    \item Identificar e interagir com pelo menos um dinossauro;
+    \item Abrir e navegar pelos três modos de painel (Informação, Comparação
+          e Raio-X);
+    \item Avaliar a clareza da interface e o conforto da experiência.
+\end{itemize}
+
+Após a sessão, os participantes partilharam as suas impressões oralmente.
+O objetivo desta avaliação preliminar foi identificar problemas de usabilidade
+e recolher feedback qualitativo antes da versão final.
+
+\section{Métricas}
+
+As dimensões avaliadas durante os testes incluem:
+
+\begin{itemize}
+    \setlength\itemsep{0pt}
+    \item \textbf{Usabilidade}: facilidade de navegação e interação com os
+          painéis;
+    \item \textbf{Legibilidade}: clareza e posicionamento da informação
+          apresentada;
+    \item \textbf{Presença}: sensação de imersão no ambiente virtual;
+    \item \textbf{Retenção de conhecimento}: capacidade de recordar
+          informações básicas sobre os dinossauros após a sessão;
+    \item \textbf{Fun factor}: perceção de interesse e envolvimento;
+    \item \textbf{Conforto}: ausência de desconforto ou desorientação.
+\end{itemize}
+
+% ======================= RESULTADOS ===============================
+\chapter{Resultados e Discussão}
+
+O protótipo encontra-se numa fase funcional avançada. Foram integrados três
+dinossauros animados, um cenário explorável e um sistema de UI diegética com
+três painéis por dinossauro, todos operacionais.
+
+\section{Resultados Técnicos}
+
+As principais funcionalidades implementadas e validadas são:
+
+\begin{itemize}
+    \setlength\itemsep{0pt}
+    \item Integração funcional dos três dinossauros (\textit{Stegosaurus},
+          \textit{Pachycephalosaurus}, \textit{Velociraptor}) no cenário;
+    \item Animações e ciclos de comportamento com alternância aleatória;
+    \item Efeitos sonoros integrados nos dinossauros;
+    \item Painéis educativos diegéticos implementados (Informação, Comparação
+          e Raio-X) para cada dinossauro;
+    \item Sistema de interação VR com mapeamento de botões (A/B/X);
+    \item Gravidade e deteção de solo funcional via \code{GravityProvider};
+    \item Delimitação de área de jogo via \code{XRBoundsConstraint};
+    \item Estrutura modular que permite adicionar novos dinossauros e painéis.
+\end{itemize}
+
+\section{Resultados dos Testes com Utilizadores}
+
+Foram realizados dois testes informais com utilizadores sem experiência prévia
+em aplicações XR. Ambos os participantes conseguiram explorar o ambiente,
+identificar os dinossauros e abrir os painéis educativos sem instrução prévia.
+
+O feedback recolhido foi globalmente positivo, com destaque para a imersão
+do cenário e para a ideia de painéis junto aos dinossauros como forma de
+apresentar informação. Foram também identificados pontos de melhoria,
+nomeadamente a necessidade de indicações visuais mais claras sobre como
+interagir com cada dinossauro e a importância de ter conteúdo visual mais
+completo nos painéis de Comparação e Raio-X.
+
+\section{Limitações Identificadas}
+
+As principais limitações no estado atual são:
+
+\begin{itemize}
+    \setlength\itemsep{0pt}
+    \item Necessidade de otimização adicional para dispositivos VR standalone
+          (Meta Quest);
+    \item Conteúdo visual final dos painéis de Comparação e Raio-X ainda
+          em preparação;
+    \item Audioguia por espécie em implementação;
+    \item Alguns eventos de animação dos assets de terceiros referenciam
+          funções não implementadas, gerando avisos no console que serão
+          resolvidos na fase de polimento;
+    \item Testes em headset real (Meta Quest) não concluídos.
+\end{itemize}
+
+% ======================= CONCLUSÕES ===============================
+\chapter{Conclusões e Trabalho Futuro}
+
+\section{Conclusões}
+
+O projeto \textit{PaleoLusa} apresenta um protótipo funcional com os
+principais elementos necessários para uma experiência educativa XR:
+cenário explorável, três dinossauros animados, interação VR e UI diegética
+com múltiplos painéis educativos. Foram já realizados testes informais com
+dois utilizadores, que permitiram validar a navegabilidade e a adequação
+geral da experiência.
+
+A escolha de painéis integrados no mundo virtual revelou-se adequada ao
+contexto XR, uma vez que mantém a informação próxima do objeto observado e
+evita quebrar a imersão com menus tradicionais. A integração de múltiplos
+painéis por dinossauro permite organizar a informação de forma simples e
+progressiva.
+
+O desenvolvimento demonstrou a importância de decisões de design focadas na
+experiência do utilizador, desempenho e estabilidade técnica, sobretudo em
+aplicações destinadas a Realidade Virtual. Em particular, a integração correcta
+dos sistemas de locomoção e gravidade do XR Interaction Toolkit exige atenção
+especial ao fluxo interno do \code{XRBodyTransformer}, que deve ser o único
+ponto de controlo do \textit{CharacterController} para evitar conflitos entre
+sistemas.
+
+\section{Trabalho Futuro}
+
+Como trabalho a concluir e como perspetivas de desenvolvimento futuro, destacam-se:
+
+\begin{itemize}
+    \setlength\itemsep{0pt}
+    \item Finalização do audioguia com narração por espécie (em curso);
+    \item Integração das imagens finais nos painéis de Raio-X e Comparação
+          (em curso);
+    \item Otimização adicional do cenário para dispositivos VR standalone;
+    \item \textit{Baking} de iluminação e redução de elementos pesados;
+    \item Testes em headset real (Meta Quest) e ajustes decorrentes;
+    \item Resolução dos eventos de animação sem recetor nos assets de
+          terceiros;
+    \item Expansão para novas espécies e novos pontos educativos;
+    \item Avaliação formal com maior número de utilizadores.
+\end{itemize}
+
+% ======================= BIBLIOGRAFIA ===============================
+\chapter*{Bibliografia}
+\addcontentsline{toc}{chapter}{Bibliografia}
+
+\begin{itemize}
+    \item M. K. Bekele, R. Pierdicca, E. Frontoni, E. S. Malinverni, and J. Gain,
+    ``A Survey of Augmented, Virtual, and Mixed Reality for Cultural Heritage,''
+    \textit{Journal on Computing and Cultural Heritage}, vol. 11, no. 2,
+    pp. 1--36, Mar. 2018.
+
+    \item M. R. Bennett, M. Budka, M. Belvedere, and S. Reynolds,
+    ``Deploying augmented reality to help engage the public with
+    palaeontological applications,''
+    \textit{Proceedings of the Geologists' Association}, vol. 133, no. 1,
+    pp. 22--31, Feb. 2022.
+
+    \item Unity Technologies. \textit{Unity Manual}. Disponível em:
+    \url{https://docs.unity3d.com/Manual/}
+
+    \item Unity Technologies. \textit{XR Interaction Toolkit Documentation}.
+    Disponível em:
+    \url{https://docs.unity3d.com/Packages/com.unity.xr.interaction.toolkit@latest}
+\end{itemize}
+
+\end{document}

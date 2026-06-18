@@ -9,10 +9,14 @@ public class AutoResizeBackground : MonoBehaviour
     public float paddingX = 0.5f;
     public float paddingY = 0.3f;
 
+    private string lastText;
+
     void Update()
     {
         if (textMesh == null || background == null) return;
+        if (textMesh.text == lastText) return;
 
+        lastText = textMesh.text;
         textMesh.ForceMeshUpdate();
 
         Vector2 size = textMesh.GetRenderedValues(false);
