@@ -33,49 +33,44 @@ public class BoneheadSoundEffects : MonoBehaviour
 
     public void Growl()
     {
-        int Index = Random.Range(0, growlClips.Length);
-
-        AudioClip clip = growlClips[Index];
-        audioSource.PlayOneShot(clip);
+        if (growlClips == null || growlClips.Length == 0 || audioSource == null) return;
+        AudioClip clip = growlClips[Random.Range(0, growlClips.Length)];
+        if (clip != null) audioSource.PlayOneShot(clip);
     }
 
     //Yelp Sounds (Random)
 
     public void Yelp()
     {
-        int Index = Random.Range(0, yelpClips.Length);
-
-        AudioClip clip = yelpClips[Index];
-        audioSource.PlayOneShot(clip);
+        if (yelpClips == null || yelpClips.Length == 0 || audioSource == null) return;
+        AudioClip clip = yelpClips[Random.Range(0, yelpClips.Length)];
+        if (clip != null) audioSource.PlayOneShot(clip);
     }
 
     //Bark Sounds (Random)
 
     public void Bark()
     {
-        int Index = Random.Range(0, barkClips.Length);
-
-        AudioClip clip = barkClips[Index];
-        audioSource.PlayOneShot(clip);
+        if (barkClips == null || barkClips.Length == 0 || audioSource == null) return;
+        AudioClip clip = barkClips[Random.Range(0, barkClips.Length)];
+        if (clip != null) audioSource.PlayOneShot(clip);
     }
 
     //Roar Sounds (Random)
 
     public void Roar()
     {
-        int Index = Random.Range(0, roarClips.Length);
-
-        AudioClip clip = roarClips[Index];
-        audioSource.PlayOneShot(clip);
+        if (roarClips == null || roarClips.Length == 0 || audioSource == null) return;
+        AudioClip clip = roarClips[Random.Range(0, roarClips.Length)];
+        if (clip != null) audioSource.PlayOneShot(clip);
     }
 
     //Death Sounds (Random)
 
     public void Death()
     {
-        int Index = Random.Range(0, deathClips.Length);
-
-        AudioClip clip = deathClips[Index];
-        audioSource.PlayOneShot(clip);
+        if (deathClips == null || deathClips.Length == 0 || audioSource == null) return;
+        AudioClip clip = deathClips[Random.Range(0, deathClips.Length)];
+        if (clip != null) audioSource.PlayOneShot(clip);
     }
 }

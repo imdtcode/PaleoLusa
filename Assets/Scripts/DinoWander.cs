@@ -72,7 +72,8 @@ public class DinoWander : MonoBehaviour
             {
                 // If a tree, wall or other dino is ahead, steer 90-150° sideways
                 Vector3 rayOrigin = transform.position + Vector3.up;
-                if (Physics.Raycast(rayOrigin, transform.forward, out RaycastHit obsHit,
+                Vector3 flatForward = new Vector3(transform.forward.x, 0f, transform.forward.z).normalized;
+                if (Physics.SphereCast(rayOrigin, 0.4f, flatForward, out RaycastHit obsHit,
                         obstacleCheckDistance, ~0, QueryTriggerInteraction.Ignore))
                 {
                     if (!obsHit.transform.IsChildOf(transform) && obsHit.transform != transform)
@@ -80,8 +81,7 @@ public class DinoWander : MonoBehaviour
                         float sideAngle = Random.value > 0.5f
                             ? Random.Range(90f, 150f)
                             : Random.Range(-150f, -90f);
-                        Vector3 fwd2D = new Vector3(transform.forward.x, 0f, transform.forward.z).normalized;
-                        _target = transform.position + Quaternion.Euler(0f, sideAngle, 0f) * fwd2D * wanderRadius;
+                        _target = transform.position + Quaternion.Euler(0f, sideAngle, 0f) * flatForward * wanderRadius;
                         return;
                     }
                 }
@@ -91,8 +91,8 @@ public class DinoWander : MonoBehaviour
                 transform.rotation = Quaternion.RotateTowards(
                     transform.rotation, desired, rotationSpeed * Time.deltaTime);
 
-                // Move forward
-                transform.position += transform.forward * walkSpeed * Time.deltaTime;
+                // Move forward — XZ only so dino never climbs collider edges
+                transform.position += flatForward * walkSpeed * Time.deltaTime;
                 SnapToGround();
             }
             else

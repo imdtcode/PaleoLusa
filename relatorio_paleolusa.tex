@@ -34,6 +34,13 @@
 % ========================= COMANDOS ÚTEIS =============================
 \newcommand{\code}[1]{\texttt{#1}}
 
+\newcommand{\blankpage}{%
+    \newpage
+    \thispagestyle{empty}
+    \mbox{}
+    \newpage
+}
+
 \setlength{\parskip}{0.35em}
 \setlength{\parindent}{0pt}
 
@@ -74,7 +81,7 @@
 
 % ========================= TIKZ =============================
 \tikzset{
-    comp/.style={rectangle, draw, rounded corners, minimum width=4.4cm,
+    comp/.style={rectangle, draw, rounded corners, minimum width=3.6cm,
         minimum height=1cm, align=center, font=\small},
     arrow/.style={-{Latex}, thick},
 }
@@ -101,8 +108,31 @@
     {\large Autor:}\\[0.25cm]
     Daniel Cardoso (Nº 52218)\\[0.8cm]
 
+    {\large Orientador:}\\[0.25cm]
+    {\large\bfseries Professor João Alfredo F. F. Dias, UBI}\\[0.8cm]
+
     {\large Covilhã, Março de 2026}
 \end{titlepage}
+
+% ========================= AGRADECIMENTOS ==========================
+\chapter*{Agradecimentos}
+\addcontentsline{toc}{chapter}{Agradecimentos}
+
+Em primeiro lugar, agradeço ao meu orientador pelo acompanhamento, pela
+disponibilidade e pelas sugestões que contribuíram para a qualidade deste
+projeto.
+
+Agradeço também à Universidade da Beira Interior e ao Departamento de
+Informática por proporcionarem as condições necessárias ao desenvolvimento
+deste trabalho.
+
+Um obrigado especial aos utilizadores que participaram nos testes informais
+do protótipo e cujo \textit{feedback} foi essencial para identificar melhorias.
+
+Por fim, o meu sincero agradecimento à família e amigos pelo apoio constante
+ao longo de todo o percurso académico.
+
+\blankpage
 
 % =========================== RESUMO ===============================
 \chapter*{Resumo}
@@ -127,7 +157,72 @@ mantendo a legibilidade em contexto XR. Para além da componente visual e
 interativa, foram consideradas questões de desempenho, escala, estabilidade
 técnica e preparação para utilização em dispositivos de Realidade Virtual.
 
+\blankpage
+
 \tableofcontents
+
+\blankpage
+
+% ====================== LISTA DE FIGURAS ==========================
+\listoffigures
+\addcontentsline{toc}{chapter}{Lista de Figuras}
+
+\blankpage
+
+% ====================== LISTA DE TABELAS ==========================
+\listoftables
+\addcontentsline{toc}{chapter}{Lista de Tabelas}
+
+\blankpage
+
+% ====================== LISTA DE ACRÓNIMOS ========================
+\chapter*{Lista de Acrónimos}
+\addcontentsline{toc}{chapter}{Lista de Acrónimos}
+
+\begin{tabular}{@{}lp{10cm}@{}}
+\textbf{2D}  & Bidimensional (\textit{Two-Dimensional}) \\[4pt]
+\textbf{3D}  & Tridimensional (\textit{Three-Dimensional}) \\[4pt]
+\textbf{AR}  & Realidade Aumentada (\textit{Augmented Reality}) \\[4pt]
+\textbf{LOD} & Nível de Detalhe (\textit{Level of Detail}) \\[4pt]
+\textbf{UI}  & Interface de Utilizador (\textit{User Interface}) \\[4pt]
+\textbf{UX}  & Experiência do Utilizador (\textit{User Experience}) \\[4pt]
+\textbf{VR}  & Realidade Virtual (\textit{Virtual Reality}) \\[4pt]
+\textbf{XR}  & Realidade Estendida (\textit{Extended Reality}) \\[4pt]
+\textbf{XRI} & XR Interaction Toolkit (Unity) \\[4pt]
+\textbf{XRF} & XR Framework (Unity) \\[4pt]
+\end{tabular}
+
+\blankpage
+
+% ============= DECLARAÇÃO DE USO DE IA GENERATIVA ================
+\chapter*{Declaração de Uso de IA Generativa}
+\addcontentsline{toc}{chapter}{Declaração de Uso de IA Generativa}
+
+No âmbito do desenvolvimento deste projeto e da redação deste relatório,
+foram utilizadas ferramentas de Inteligência Artificial Generativa, em
+particular o assistente \textbf{Claude} (Anthropic). O recurso a estas
+ferramentas teve os seguintes propósitos:
+
+\begin{itemize}
+    \setlength\itemsep{0pt}
+    \item \textbf{Apoio ao desenvolvimento de código C\#:} assistência na
+          implementação e depuração de scripts Unity, nomeadamente os sistemas
+          de deambulação dos dinossauros, interação VR e painéis educativos;
+    \item \textbf{Resolução de erros técnicos:} diagnóstico de erros de
+          compilação e de comportamento em runtime, com explicação das causas
+          e das correções aplicadas;
+    \item \textbf{Apoio à redação:} revisão de estrutura e linguagem em
+          algumas secções deste relatório, mantendo sempre a responsabilidade
+          intelectual e de conteúdo do autor.
+\end{itemize}
+
+Todas as decisões de arquitetura, design e conteúdo educativo foram tomadas
+pelo autor. O código gerado com assistência de IA foi revisto, adaptado e
+integrado pelo autor, que assume plena responsabilidade pelo resultado final.
+O uso destas ferramentas foi transparente e complementar ao trabalho próprio,
+não substituindo o processo de aprendizagem e desenvolvimento individual.
+
+\blankpage
 
 % ======================= INTRODUÇÃO ===============================
 \chapter{Introdução}
@@ -197,6 +292,29 @@ Os principais objetivos do projeto são:
     \item Documentar e justificar as principais decisões técnicas e de design.
 \end{itemize}
 
+\section{Contribuições}
+
+As principais contribuições deste projeto são:
+
+\begin{itemize}
+    \setlength\itemsep{0pt}
+    \item \textbf{Protótipo XR funcional} sobre o Jurássico da Lourinhã,
+          dirigido a contextos educativos e museológicos, executável em
+          headset Meta Quest;
+    \item \textbf{Sistema de UI diegética} com três painéis por dinossauro
+          (Informação, Comparação de Escala e Raio-X), integrado no ambiente
+          3D sem recorrer a menus tradicionais fixos à câmara;
+    \item \textbf{Sistema de comportamento autónomo} dos dinossauros com
+          deambulação física (\textit{CharacterController}), deteção de
+          obstáculos omnidirecional e colisão entre animais sem escalada;
+    \item \textbf{Integração de controlos VR} compatível com o Meta Quest
+          real através de \code{UnityEngine.XR.InputDevices}, com
+          \textit{fallback} para o XR Interaction Simulator;
+    \item \textbf{Documentação técnica} das decisões de implementação,
+          problemas encontrados e soluções adoptadas, servindo de referência
+          para projetos semelhantes em Unity XR.
+\end{itemize}
+
 \section{Organização do Documento}
 
 Este relatório encontra-se organizado da seguinte forma:
@@ -213,8 +331,26 @@ Este relatório encontra-se organizado da seguinte forma:
     \item \textbf{Capítulo 6:} Conclusões e trabalho futuro.
 \end{itemize}
 
+\section{Síntese do Capítulo}
+
+Este capítulo apresentou o enquadramento do projeto \textit{PaleoLusa},
+situando-o no contexto das tecnologias XR aplicadas a conteúdo paleontológico
+e educativo. Foram definidos os objetivos principais, resumida a literatura
+de referência e descrita a estrutura do documento. O capítulo seguinte
+descreve a metodologia de desenvolvimento e as ferramentas adoptadas.
+
+\blankpage
+
 % ======================= METODOLOGIA ===============================
 \chapter{Metodologia e Planeamento}
+
+\section{Introdução}
+
+Este capítulo descreve a abordagem metodológica seguida no desenvolvimento
+do protótipo, as ferramentas e tecnologias adoptadas e o cronograma geral
+do projeto. A escolha de uma metodologia incremental permitiu validar
+funcionalidades de forma progressiva e adaptar o plano às necessidades
+que foram surgindo ao longo do desenvolvimento.
 
 \section{Abordagem de Desenvolvimento}
 
@@ -277,8 +413,28 @@ O cronograma do projeto encontra-se estruturado da seguinte forma:
     defesa pública.
 \end{itemize}
 
+\section{Síntese do Capítulo}
+
+Este capítulo descreveu a metodologia incremental adoptada no desenvolvimento
+do \textit{PaleoLusa}, as principais ferramentas e tecnologias utilizadas e
+o cronograma de trabalho distribuído por fase. A abordagem por fases garantiu
+entregas parciais validáveis e facilitou a identificação precoce de problemas.
+O capítulo seguinte detalha as decisões de implementação tomadas em cada
+componente do sistema.
+
+\blankpage
+
 % ======================= IMPLEMENTAÇÃO ===============================
 \chapter{Implementação}
+
+\section{Introdução}
+
+Este capítulo detalha as decisões de implementação do protótipo, cobrindo
+a arquitetura geral do sistema, a construção do cenário, a integração dos
+dinossauros e todos os sistemas desenvolvidos em C\#: animação, deambulação,
+painéis educativos, locomoção, controlos VR e áudio. Cada secção documenta
+as escolhas técnicas efectuadas, os problemas encontrados e as soluções
+adoptadas durante o desenvolvimento.
 
 \section{Arquitetura Geral do Sistema}
 
@@ -288,19 +444,25 @@ A Figura~\ref{fig:arch} ilustra as principais componentes e as suas relações.
 
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}[node distance=1.3cm and 2.2cm]
+\begin{tikzpicture}[node distance=1.2cm and 1.6cm]
 
-    % Coluna esquerda
+    % Coluna esquerda --- XR
     \node[comp] (xro) {XR Origin\\(XR Rig)};
-    \node[comp, below=of xro] (grav) {GravityProvider\\(Locomotion/Gravity)};
-    \node[comp, below=of grav] (move) {ContinuousMoveProvider\\(Locomotion/Move)};
+    \node[comp, below=of xro] (grav) {XRCharacterCollisionMover\\(Gravidade)};
+    \node[comp, below=of grav] (move) {ContinuousMoveProvider\\(Locomotion)};
     \node[comp, below=of move] (vrin) {VRInputHandler};
 
-    % Coluna direita
+    % Coluna central --- Dinossauros
     \node[comp, right=of xro] (cam) {Main Camera\\(TrackedPoseDriver)};
     \node[comp, right=of grav] (sw) {DinoPanelSwitcher\\(por dinossauro)};
     \node[comp, right=of move] (lk) {DinoPanelLookAtPlayer\\(por painel)};
     \node[comp, right=of vrin] (anim) {DinoAnimationCycle\\(por dinossauro)};
+
+    % Coluna direita --- Movimento e Áudio
+    \node[comp, right=of cam] (wander) {StegoWander / PachyWander\\/ RaptorWander};
+    \node[comp, right=of sw] (dinoaud) {DinoAudio\\(sons periódicos)};
+    \node[comp, right=of lk] (stateaud) {StateAudioBehaviour\\(sons por estado)};
+    \node[comp, right=of anim] (ambient) {AmbientAudio\\(AudioSource 2D)};
 
     % Setas
     \draw[arrow] (xro) -- (cam);
@@ -311,6 +473,8 @@ A Figura~\ref{fig:arch} ilustra as principais componentes e as suas relações.
     \draw[arrow] (sw)  -- (lk);
     \draw[arrow] (sw)  -- (anim);
     \draw[arrow] (cam) -- (lk);
+    \draw[arrow] (anim) -- (wander);
+    \draw[arrow] (anim) -- (stateaud);
 
 \end{tikzpicture}
 \caption{Arquitetura simplificada dos sistemas do protótipo.}
@@ -319,8 +483,8 @@ A Figura~\ref{fig:arch} ilustra as principais componentes e as suas relações.
 
 O \code{XR Origin (XR Rig)} é o prefab central fornecido pelo XR Interaction
 Toolkit. Sobre ele assentam todos os sistemas de locomoção e o nó de câmara.
-Os scripts de lógica de jogo (\code{DinoPanelSwitcher},
-\code{DinoPanelLookAtPlayer}, \code{DinoAnimationCycle}) estão associados a
+Os scripts de lógica de jogo (\code{DinoPanelSwitcher}, \code{DinoPanelLookAtPlayer},
+\code{DinoAnimationCycle}, scripts de deambulação e áudio) estão associados a
 cada dinossauro individualmente, permitindo uma estrutura modular.
 
 \section{Cenário e Ambiente}
@@ -357,15 +521,33 @@ Foram integrados três dinossauros principais:
     \item \textbf{Velociraptor} --- carnívoro ágil de pequeno porte.
 \end{itemize}
 
-Cada dinossauro foi configurado com modelos 3D adquiridos em pacotes de assets,
-animações, áudio e componentes de interação. As animações incluem estados como
-repouso (\textit{idle}), caminhada, corrida e outros comportamentos específicos
-fornecidos pelos próprios assets.
+Cada dinossauro foi configurado com modelos 3D adquiridos em pacotes de assets
+da \textit{Ferocious Industries} (disponíveis na Unity Asset Store), que incluem
+malhas de alta qualidade, \textit{rigs} de animação, \textit{Animator Controllers}
+pré-configurados e \textit{AudioClips} de sons comportamentais organizados por
+categoria (rugidos, latidos, grunhidos, reações de dor).
+
+A integração implicou ajustes significativos de escala, uma vez que os modelos
+importados utilizavam unidades de escala distintas das do cenário. Esta calibração
+foi feita com referência à escala humana (representada pelo \textit{XR Origin}),
+garantindo que a perceção de tamanho em VR corresponde à realidade paleontológica
+das espécies representadas. O \textit{Stegosaurus}, por exemplo, atinge
+aproximadamente 4 metros de altura ao nível da bacia, o que se traduz numa escala
+claramente superior à do utilizador e contribui para o impacto visual da experiência.
+
+Os \textit{Animator Controllers} originais foram mantidos na sua estrutura base
+e expandidos com estados adicionais criados especificamente para o projeto
+(\code{WALKSTEGO}, \code{WALKPACHY}, \code{WALKRAPTOR}), que servem como pontos
+de entrada para o sistema de deambulação (ver Secção~\ref{sec:wander}).
 
 Para a componente física, foram utilizados colliders simplificados,
-nomeadamente \textit{Capsule Collider} e \textit{Box Collider}. Esta escolha
+nomeadamente \textit{Capsule Collider} e \textit{Box Collider}, posicionados
+manualmente para cobrir o volume aproximado de cada dinossauro. Esta escolha
 foi feita por motivos de desempenho e estabilidade, evitando o uso de
-\textit{Mesh Colliders} complexos nos dinossauros.
+\textit{Mesh Colliders} complexos que seriam proibitivos em contexto VR standalone.
+Cada dinossauro tem também um componente \code{DinoFollowGround} que aplica um
+\textit{raycast} descendente para manter o modelo fixo à superfície do terreno,
+compensando irregularidades topográficas.
 
 \section{Sistema de Animação dos Dinossauros}
 
@@ -381,36 +563,188 @@ using UnityEngine;
 public class DinoAnimationCycle : MonoBehaviour
 {
     public Animator animator;
-    public string[] animationTriggers;
-    public float minInterval = 5f;
-    public float maxInterval = 12f;
 
+    [System.Serializable]
+    public struct AnimState
+    {
+        public string stateName;
+        [Min(0.1f)] public float duration;
+    }
+
+    public AnimState[] states;
+    [Min(0f)] public float crossFadeTime = 0.5f;
+
+    private int   _index;
     private float _timer;
 
-    void Start() => ScheduleNext();
+    void Start()
+    {
+        if (animator == null)
+            animator = GetComponentInChildren<Animator>();
+        if (animator != null && states.Length > 0)
+            PlayCurrent();
+    }
 
     void Update()
     {
+        if (animator == null || states.Length < 2) return;
+        if (animator.speed == 0f) return; // pausado pelo DinoPanelSwitcher
+
         _timer -= Time.deltaTime;
         if (_timer <= 0f)
         {
-            if (animationTriggers.Length > 0)
-            {
-                int idx = Random.Range(0, animationTriggers.Length);
-                animator.SetTrigger(animationTriggers[idx]);
-            }
-            ScheduleNext();
+            _index = (_index + 1) % states.Length;
+            PlayCurrent();
         }
     }
 
-    void ScheduleNext() =>
-        _timer = Random.Range(minInterval, maxInterval);
+    private void PlayCurrent()
+    {
+        animator.CrossFadeInFixedTime(states[_index].stateName, crossFadeTime);
+        _timer = states[_index].duration;
+    }
 }
 \end{lstlisting}
 
-Durante a interação educativa, as animações são pausadas através do
-\code{DinoPanelSwitcher} (ver Secção~\ref{sec:panels}), que define
-\code{animator.speed = 0f} enquanto o painel está aberto.
+Cada estado do ciclo tem nome e duração configuráveis no \textit{Inspector}.
+O ciclo é suspenso automaticamente quando \code{animator.speed == 0f}, o que
+acontece durante a interação educativa através do \code{DinoPanelSwitcher}
+(ver Secção~\ref{sec:panels}).
+
+\section{Sistema de Deambulação dos Dinossauros}
+\label{sec:wander}
+
+Para tornar os dinossauros mais convincentes e naturais, foi implementado um
+sistema de deambulação autónoma. Cada dinossauro percorre aleatoriamente a área
+de jogo, alternando entre estados de repouso e caminhada de forma independente.
+
+A solução final utiliza scripts individuais por espécie --- \code{StegoWander},
+\code{PachyWander} e \code{RaptorWander} --- que comunicam com o \textit{Animator}
+de cada dinossauro através de etiquetas de estado (\textit{tags}). Esta abordagem
+foi necessária porque cada espécie tem uma estrutura de \textit{Animator} e de
+\textit{root motion} distinta.
+
+\subsection{Deteção do Estado de Caminhada por \textit{Tag}}
+
+Em vez de controlar diretamente as transições do \textit{Animator}, os scripts
+de deambulação observam passivamente o estado ativo e reagem a ele. Os estados de
+caminhada em cada \textit{Animator} são marcados com a \textit{tag} \code{"Walk"}.
+A cada \textit{frame}, o script verifica se o estado ativo tem essa \textit{tag}:
+
+\begin{lstlisting}[caption={Deteção de estado de caminhada por tag (RaptorWander.cs).},
+                   label={lst:wandertag}]
+bool inWalkState = _animator.GetCurrentAnimatorStateInfo(0).IsTag("Walk");
+
+if (inWalkState && !_walking)
+    StartWalking();
+else if (!inWalkState && _walking)
+    StopWalking();
+\end{lstlisting}
+
+Esta abordagem desacopla o script de deambulação do \textit{Animator}: o
+\code{DinoAnimationCycle} controla quando a caminhada começa e termina; o script
+de deambulação apenas responde e aplica o deslocamento físico correspondente.
+Quando a caminhada termina, o \code{DinoAnimationCycle} é reativado para retomar
+o ciclo natural de animações.
+
+\subsection{Movimento Físico com CharacterController}
+
+O deslocamento é aplicado através do componente \code{CharacterController}
+(atributo \code{[RequireComponent]} em cada script de deambulação), chamando
+\code{\_cc.Move()} em vez de alterar diretamente \code{transform.position}.
+Esta abordagem garante que os dinossauros são bloqueados por todos os colisores
+da cena --- paredes, árvores e outros dinossauros --- sem atravessar objetos.
+A gravidade é aplicada num método dedicado:
+
+\begin{lstlisting}[caption={Gravidade aplicada via CharacterController (RaptorWander.cs).},
+                   label={lst:wandergrav}]
+void ApplyGravity()
+{
+    if (_cc.isGrounded)
+        _verticalVelocity = -2f;
+    else
+        _verticalVelocity -= 9.81f * Time.deltaTime;
+
+    _cc.Move(Vector3.up * _verticalVelocity * Time.deltaTime);
+}
+\end{lstlisting}
+
+\subsection{Comportamento de Pausa e Desvio de Obstáculos}
+
+Quando um obstáculo é detetado, o dinossauro não desvia imediatamente: para
+por 1{,}5 a 3 segundos (\code{minWaitTime}/\code{maxWaitTime}) e escolhe de
+seguida um novo alvo desviado entre 90° e 150° do eixo forward atual. Um
+período de rotação (\code{\_steerCooldown} = 1{,}2 s) impede que o
+\textit{SphereCast} sobreponha este giro com nova deteção prematura:
+
+\begin{lstlisting}[caption={Pausa e escolha de direção lateral após obstáculo (RaptorWander.cs).},
+                   label={lst:wanderwait}]
+void StartWaiting()
+{
+    _waiting   = true;
+    _waitTimer = Random.Range(minWaitTime, maxWaitTime);
+}
+
+void FinishWaiting()
+{
+    _waiting = false;
+    Vector3 flatForward = new Vector3(
+        transform.forward.x, 0f, transform.forward.z).normalized;
+    float sideAngle = Random.value > 0.5f
+        ? Random.Range(90f, 150f) : Random.Range(-150f, -90f);
+    _target        = ClampToHome(transform.position +
+        Quaternion.Euler(0f, sideAngle, 0f) * flatForward * wanderRadius);
+    _steerCooldown = 1.2f;
+}
+\end{lstlisting}
+
+A função \code{ClampToHome()} limita o alvo escolhido a um raio máximo
+(\code{homeRadius} = 20 u) em torno da posição inicial de cada dinossauro,
+evitando que os animais se afastem para fora da zona de jogo.
+
+A deteção de obstáculos usa dois mecanismos complementares:
+
+\begin{enumerate}
+    \setlength\itemsep{0pt}
+    \item \textbf{SphereCast frontal} --- cobre a direção de marcha e deteta
+          árvores, paredes e outros obstáculos estáticos com antecedência;
+    \item \textbf{OverlapSphere omnidirecional} --- verifica dinossauros
+          em qualquer direção, resolvendo o facto de o evento
+          \code{OnControllerColliderHit} não disparar de forma fiável
+          em colisões entre dois \textit{CharacterControllers}:
+\end{enumerate}
+
+\begin{lstlisting}[caption={Deteção omnidirecional de outros dinossauros por OverlapSphere.},
+                   label={lst:overlapsphere}]
+int dinoMask = 1 << LayerMask.NameToLayer("Dino");
+Collider[] nearbyDinos = Physics.OverlapSphere(
+    transform.position + Vector3.up, 3f, dinoMask,
+    QueryTriggerInteraction.Ignore);
+foreach (var col in nearbyDinos)
+{
+    if (col.transform == transform ||
+        col.transform.IsChildOf(transform)) continue;
+    StartWaiting();
+    return;
+}
+\end{lstlisting}
+
+\subsection{Camada de Física \textit{Dino} e Prevenção de Escalada}
+
+Todos os dinossauros foram atribuídos a uma camada de física dedicada
+(\textit{Dino}). A \textit{Layer Collision Matrix} em
+\textit{Project Settings $\to$ Physics} mantém \textit{Dino vs Dino}
+ativado (colisão física entre dinossauros) mas os scripts de deambulação
+definem \code{\_cc.stepOffset = 0.05f} em \code{Awake()}, reduzindo o
+degrau automático do \textit{CharacterController} a 5 mm. Esta combinação
+impede que um dinossauro escale o colisor em cápsula de outro ao colidirem
+lateralmente, mantendo ao mesmo tempo a colisão física que evita que os
+animais se atravessem mutuamente.
+
+Os \textit{Near-Far Interactors} dos controladores VR têm o \textit{Raycast
+Mask} e o \textit{Physics Layer Mask} configurados para incluir a camada
+\textit{Dino}, garantindo que a interação com os painéis diegéticos funciona
+mesmo com os dinossauros nesta camada dedicada.
 
 \section{Sistema de Painéis Educativos}
 \label{sec:panels}
@@ -498,6 +832,41 @@ public class DinoPanelSwitcher : MonoBehaviour
     }
 }
 \end{lstlisting}
+
+\subsection{Barreira de Proximidade}
+
+Quando o painel diegético está aberto, o utilizador pode inadvertidamente
+aproximar-se em demasia do dinossauro, fazendo o texto do painel sair do
+campo de visão por clipping ou por distância excessiva. Para resolver este
+problema, cada dinossauro tem um \code{SphereCollider} filho
+(\textit{ProximityWall}, raio 2{,}5 u) que é ativado em conjunto com o
+painel e desativado quando o painel fecha. Assim, enquanto a informação
+estiver visível, o \textit{CharacterController} do jogador é fisicamente
+impedido de se aproximar mais do que a distância de leitura confortável.
+O colisor mantém-se na camada \textit{Default} para interagir com o
+\textit{CharacterController} do jogador, que também está na camada
+\textit{Default}.
+
+\begin{lstlisting}[caption={Ativação da barreira de proximidade em DinoPanelSwitcher.cs.},
+                   label={lst:proxwall}]
+[Header("Barreira de Proximidade")]
+public SphereCollider proximityWall;
+
+private void PauseDino(bool pause)
+{
+    // ... pausa do animator e scripts ...
+    if (proximityWall != null)
+        proximityWall.enabled = pause;
+}
+\end{lstlisting}
+
+\subsection{Indicador Visual de Interagibilidade (Reticle)}
+
+Para comunicar ao utilizador que está a apontar para um dinossauro
+interagível, o \code{VRInputHandler} altera o material de uma pequena esfera
+(\textit{reticle}) colocada à frente da câmara. Quando o \textit{Raycast}
+atinge um objeto com \code{DinoPanelSwitcher}, o reticle muda para um
+material dourado; caso contrário mantém o material neutro.
 
 \subsection{Orientação do Painel para o Utilizador}
 
@@ -612,17 +981,27 @@ A camada \textit{Ground} no \textit{Sphere Cast Layer Mask} limita a deteção
 de solo apenas ao \textit{TerrainCollider} do cenário, evitando falsos
 positivos com outros colisores da cena.
 
-\subsection{Limitação de Área com XRBoundsConstraint}
+\subsection{Delimitação da Área de Jogo}
 
-Para evitar que o jogador saia dos limites do terreno, foi implementado o
-script \code{XRBoundsConstraint}. Este script corre em \code{LateUpdate} e
-restringe a posição do \textit{XR Origin} a uma caixa definida em
-coordenadas mundiais, com margem de segurança configurável.
+Para restringir o jogador a uma zona específica do mapa, foram adotadas
+duas abordagens complementares:
 
-A restrição é aplicada apenas nos eixos X e Z (horizontal), deixando o eixo
-Y livre para a gravidade actuar normalmente. Uma configuração incorreta que
-restrinja também o Y cria conflito com a gravidade, causando oscilação
-vertical.
+\textbf{Paredes invisíveis (BoundaryWalls):} foram criados objetos com
+\textit{Box Collider} e \textit{MeshRenderer} desativado, posicionados
+manualmente para delimitar o perímetro da área de jogo. Estas paredes
+atuam sobre o \textit{CharacterController} do \textit{XR Origin} e bloqueiam
+o avanço do jogador de forma impercetivelmente mas física.
+
+\textbf{Vedação decorativa (PolygonPi):} sobre as paredes invisíveis foi
+colocada uma vedação de madeira usando o asset \textit{PolygonPi Fence},
+que suporta edição por \textit{spline} no editor Unity. O asset permite
+desenhar livremente o traçado da vedação ao longo de qualquer curva,
+combinando elemento visual com reforço da narrativa de que a zona de
+observação se encontra delimitada.
+
+O script \code{XRBoundsConstraint} permanece como segunda linha de defesa,
+aplicando uma caixa de restrição AABB nos eixos X e Z para casos em que o
+jogador consiga escapar às paredes físicas (por exemplo, durante teletransporte):
 
 \begin{table}[H]
 \centering
@@ -636,7 +1015,7 @@ Constrain Y  & Desativado \\
 Padding      & 0,25 m \\
 \bottomrule
 \end{tabular}
-\caption{Configuração do XRBoundsConstraint.}
+\caption{Configuração do XRBoundsConstraint (segunda linha de defesa).}
 \label{tab:bounds}
 \end{table}
 
@@ -671,28 +1050,57 @@ script deteta o componente \code{DinoPanelSwitcher} no objeto atingido e
 chama \code{TogglePanel()}. Se o raio não atingir nenhum dinossauro, o
 painel aberto é fechado.
 
-\begin{lstlisting}[caption={Excerto de VRInputHandler.cs --- lógica de raycast e botões.},
+\begin{lstlisting}[caption={Excerto de VRInputHandler.cs --- leitura de botões XR e raycast.},
                    label={lst:vrinput}]
+// Alias para resolver ambiguidade entre UnityEngine.InputSystem.InputDevice
+// e UnityEngine.XR.InputDevice em tempo de compilacao
+using XRInputDevice  = UnityEngine.XR.InputDevice;
+using XRCommonUsages = UnityEngine.XR.CommonUsages;
+
+// Obter dispositivos XR por no (funciona no headset real)
+void RefreshDevices()
+{
+    if (!_rightHand.isValid)
+    {
+        var list = new List<XRInputDevice>();
+        InputDevices.GetDevicesAtXRNode(XRNode.RightHand, list);
+        if (list.Count > 0) _rightHand = list[0];
+    }
+}
+
+bool GetXRButton(XRInputDevice device, InputFeatureUsage<bool> usage)
+{
+    if (!device.isValid) return false;
+    device.TryGetFeatureValue(usage, out bool value);
+    return value;
+}
+
 void Update()
 {
-    if (_cam == null)    _cam = FindActiveCamera();
-    if (_cam == null || Gamepad.current == null) return;
+    RefreshDevices();
+
+    // Leitura dos botoes via XR InputDevices (Meta Quest real)
+    bool aHeld = GetXRButton(_rightHand, XRCommonUsages.primaryButton);
+    bool aPressed = !_prevA && aHeld;
+
+    // Fallback para Gamepad (XR Interaction Simulator no editor)
+    if (Gamepad.current != null)
+        aPressed |= Gamepad.current.buttonSouth.wasPressedThisFrame;
+
+    _prevA = aHeld;
+
+    // Reticle: destaca quando aponta para dinossauro
+    _currentPointed = GetPointedDino();
+    if (reticle != null)
+        reticle.material = _currentPointed != null
+            ? reticleHighlight : reticleDefault;
 
     // Botao A --- abrir/fechar painel do dino apontado
-    if (Gamepad.current.buttonSouth.wasPressedThisFrame)
+    if (aPressed)
     {
-        DinoPanelSwitcher pointed = GetPointedDino();
-        if (pointed != null) pointed.TogglePanel();
-        else                 DinoPanelSwitcher.CloseOpenPanel();
+        if (_currentPointed != null) _currentPointed.TogglePanel();
+        else                         DinoPanelSwitcher.CloseOpenPanel();
     }
-
-    // Botao B --- ciclar sub-paineis
-    if (Gamepad.current.buttonEast.wasPressedThisFrame)
-        DinoPanelSwitcher.NextOpenPanel();
-
-    // Botao X --- fechar painel
-    if (Gamepad.current.buttonWest.wasPressedThisFrame)
-        DinoPanelSwitcher.CloseOpenPanel();
 }
 
 private DinoPanelSwitcher GetPointedDino()
@@ -704,6 +1112,13 @@ private DinoPanelSwitcher GetPointedDino()
     return null;
 }
 \end{lstlisting}
+
+A leitura de botões usa \code{UnityEngine.XR.InputDevices} como caminho
+principal, com \textit{fallback} para \code{Gamepad} (XR Interaction Simulator
+no editor). Foram necessários aliases de \code{using} para resolver a
+ambiguidade de compilação entre \code{UnityEngine.InputSystem.InputDevice}
+e \code{UnityEngine.XR.InputDevice}, que partilham o mesmo nome simples
+quando ambos os \textit{namespaces} estão ativos.
 
 \section{Desempenho e Otimização}
 
@@ -728,64 +1143,194 @@ Estas decisões procuram garantir maior estabilidade em dispositivos VR,
 especialmente no Meta Quest, onde a performance é um fator determinante para
 a qualidade da experiência.
 
-\section{Narrativa Sonora e Audioguia}
+\section{Sistema de Áudio}
+\label{sec:audio}
 
-A componente de áudio é fundamental para reforçar a imersão e responder ao
-objetivo de incluir uma narrativa turística associada a cada dinossauro.
-Foram já integrados efeitos sonoros nas animações dos dinossauros (rugidos,
-movimentos) através dos próprios assets de terceiros. A implementação de um
-audioguia por espécie, com narração informativa acionada quando o utilizador
-abre o painel educativo, encontra-se em curso e será integrada na versão final
-do protótipo.
+O sistema de áudio foi estruturado em três camadas complementares, com o
+objetivo de reforçar a imersão sem sobrecarregar a mistura sonora.
+
+\subsection{Áudio Ambiente}
+
+Um objeto vazio na cena contém um \code{AudioSource} configurado em modo 2D
+(\textit{Spatial Blend} = 0), com \textit{Loop} e \textit{Play On Awake} ativos.
+Este componente reproduz continuamente uma faixa de sons ambientes (vento, folhas,
+água) a volume reduzido (0{,}3--0{,}4), garantindo que o utilizador nunca
+experimenta silêncio total independentemente da sua posição no cenário.
+
+\subsection{Sons Periódicos dos Dinossauros}
+
+O script \code{DinoAudio} reproduz aleatoriamente sons de um conjunto configurável
+de \textit{AudioClips}, com intervalos aleatórios entre valores mínimo e máximo
+definidos no \textit{Inspector}:
+
+\begin{lstlisting}[caption={Excerto de DinoAudio.cs --- sons periódicos.},
+                   label={lst:dinoaudio}]
+void Update()
+{
+    _timer -= Time.deltaTime;
+    if (_timer <= 0f) { PlayRandom(); ScheduleNext(); }
+}
+
+void PlayRandom()
+{
+    if (clips == null || clips.Length == 0 || audioSource == null) return;
+    if (audioSource.isPlaying) return;
+    AudioClip clip = clips[Random.Range(0, clips.Length)];
+    if (clip != null) audioSource.PlayOneShot(clip);
+}
+\end{lstlisting}
+
+Cada dinossauro tem o seu próprio conjunto de clips (rugidos, grunhidos, latidos).
+Sons de dor ou morte são excluídos desta camada por serem inadequados num contexto
+de deambulação passiva; esses são reservados para a camada seguinte.
+
+\subsection{Sons Sincronizados com Animações}
+
+O script \code{StateAudioBehaviour}, derivado de \code{StateMachineBehaviour},
+associa um \textit{AudioClip} diretamente a um estado do \textit{Animator}.
+Quando o estado é ativado, o clip é reproduzido automaticamente:
+
+\begin{lstlisting}[caption={StateAudioBehaviour.cs --- som acionado por estado do Animator.},
+                   label={lst:stateaudio}]
+public class StateAudioBehaviour : StateMachineBehaviour
+{
+    public AudioClip clip;
+    [Range(0f, 1f)] public float volume = 1f;
+
+    public override void OnStateEnter(Animator animator,
+        AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (clip == null) return;
+        AudioSource src = animator.gameObject.GetComponent<AudioSource>();
+        if (src != null) src.PlayOneShot(clip, volume);
+    }
+}
+\end{lstlisting}
+
+Este comportamento é aplicado a estados específicos como rugidos, ataques e
+reações de dor, garantindo sincronização exata entre animação e som.
+
+\subsection{Áudio 3D Espacial}
+
+Os \code{AudioSource} dos dinossauros são configurados com \textit{Spatial Blend}
+= 1 (totalmente 3D), \textit{Max Distance} = 15 m e \textit{Volume Rolloff} linear.
+Este ajuste garante que os sons dos dinossauros dominam quando o utilizador está
+próximo e diminuem gradualmente ao afastar-se, deixando o áudio ambiente em
+evidência a longas distâncias. O \code{AudioListener} está posicionado na
+\textit{Main Camera} (nó de câmara do \textit{XR Origin}), garantindo que o
+cálculo de distância e direção do som é feito a partir da posição real da cabeça
+do utilizador.
+
+\section{Síntese do Capítulo}
+
+Este capítulo documentou a implementação completa do protótipo \textit{PaleoLusa}.
+As principais decisões técnicas foram a adopção de \code{CharacterController.Move()}
+para deslocamento físico dos dinossauros (com pausa-e-desvio e \code{OverlapSphere}
+omnidirecional), a camada de física \textit{Dino} para prevenir escalada entre
+dinossauros, a UI diegética com painéis tridimensionais e barreira de proximidade,
+o indicador visual de interagibilidade (\textit{reticle}), a delimitação de área
+por paredes físicas e vedação decorativa, a reescrita do \code{VRInputHandler}
+para compatibilidade com o Meta Quest real via \code{UnityEngine.XR.InputDevices},
+e um sistema de áudio em três camadas complementares. O capítulo seguinte descreve
+o protocolo de avaliação utilizado para validar a experiência com utilizadores reais.
+
+\blankpage
 
 % ======================= AVALIAÇÃO ===============================
 \chapter{Avaliação}
 
+\section{Introdução}
+
+Este capítulo descreve o processo de avaliação do protótipo, incluindo o
+protocolo de testes aplicado e as métricas utilizadas para medir a qualidade
+da experiência. A avaliação centrou-se em sessões informais com utilizadores
+sem experiência prévia em XR, com o objetivo de identificar problemas de
+usabilidade e validar as decisões de design antes de uma versão mais completa.
+
 \section{Protocolo de Testes}
 
 A avaliação do protótipo foi realizada através de sessões de teste informais
-com dois utilizadores não especializados em tecnologias XR. Cada participante
-explorou o ambiente em modo editor com XR Interaction Simulator, interagiu com
-os dinossauros e consultou os painéis educativos disponíveis.
+com dois utilizadores sem experiência prévia em tecnologias XR. Cada sessão
+decorreu individualmente, sem instrução prévia sobre os controlos ou objetivos,
+de modo a simular a experiência de um utilizador novo. O ambiente foi executado
+em modo editor com o \textit{XR Interaction Simulator}, que permite simular
+a presença e os controlos de um headset VR sem necessidade do dispositivo físico.
 
-A sessão incluiu as seguintes tarefas:
+A sessão foi estruturada em três fases:
 
-\begin{itemize}
+\begin{enumerate}
     \setlength\itemsep{0pt}
-    \item Explorar o cenário livremente;
-    \item Identificar e interagir com pelo menos um dinossauro;
-    \item Abrir e navegar pelos três modos de painel (Informação, Comparação
-          e Raio-X);
-    \item Avaliar a clareza da interface e o conforto da experiência.
-\end{itemize}
+    \item \textbf{Exploração livre} (aproximadamente 5 minutos): o utilizador
+          percorreu o cenário sem orientação, com o objetivo de avaliar a
+          navegabilidade espontânea e a primeira impressão do ambiente;
+    \item \textbf{Tarefas guiadas}: o utilizador foi convidado a realizar
+          um conjunto de tarefas específicas:
+          \begin{itemize}
+              \setlength\itemsep{0pt}
+              \item Identificar e aproximar-se de pelo menos dois dinossauros;
+              \item Abrir o painel educativo de um dinossauro;
+              \item Navegar pelos três modos de painel (Informação, Comparação
+                    e Raio-X);
+              \item Fechar o painel e interagir com um segundo dinossauro;
+          \end{itemize}
+    \item \textbf{Entrevista breve pós-sessão}: recolha de impressões
+          qualitativas orais sobre imersão, clareza da interface, interesse
+          do conteúdo e sugestões de melhoria.
+\end{enumerate}
 
-Após a sessão, os participantes partilharam as suas impressões oralmente.
-O objetivo desta avaliação preliminar foi identificar problemas de usabilidade
-e recolher feedback qualitativo antes da versão final.
+As sessões não foram cronometradas de forma estrita, permitindo que cada
+utilizador explorasse ao seu próprio ritmo. O observador registou notas sobre
+dificuldades observadas, momentos de hesitação e reações espontâneas durante
+a sessão.
 
-\section{Métricas}
+\section{Métricas e Dimensões Avaliadas}
 
 As dimensões avaliadas durante os testes incluem:
 
 \begin{itemize}
     \setlength\itemsep{0pt}
-    \item \textbf{Usabilidade}: facilidade de navegação e interação com os
-          painéis;
-    \item \textbf{Legibilidade}: clareza e posicionamento da informação
-          apresentada;
-    \item \textbf{Presença}: sensação de imersão no ambiente virtual;
-    \item \textbf{Retenção de conhecimento}: capacidade de recordar
-          informações básicas sobre os dinossauros após a sessão;
-    \item \textbf{Fun factor}: perceção de interesse e envolvimento;
-    \item \textbf{Conforto}: ausência de desconforto ou desorientação.
+    \item \textbf{Usabilidade}: facilidade de descoberta e uso dos controlos
+          de interação (abrir/fechar/navegar painéis) sem instrução prévia;
+    \item \textbf{Legibilidade}: clareza tipográfica e posicionamento espacial
+          da informação nos painéis diegéticos;
+    \item \textbf{Presença}: sensação subjetiva de estar num ambiente
+          tridimensional habitado, influenciada pela qualidade visual, áudio
+          e comportamento dos dinossauros;
+    \item \textbf{Retenção de conhecimento}: capacidade de recordar pelo menos
+          um facto sobre cada dinossauro observado após o final da sessão;
+    \item \textbf{Interesse e envolvimento}: perceção subjetiva do utilizador
+          sobre o interesse da experiência como ferramenta educativa;
+    \item \textbf{Conforto}: ausência de desconforto, desorientação ou
+          \textit{motion sickness} durante a navegação.
 \end{itemize}
+
+Dado o caráter informal e o número reduzido de participantes, os resultados
+desta fase de avaliação têm natureza qualitativa e exploratória, servindo
+principalmente para identificar problemas evidentes de usabilidade e validar
+a direção geral do design antes da versão final.
+
+\section{Síntese do Capítulo}
+
+Este capítulo apresentou o protocolo de avaliação do protótipo, estruturado
+em três fases (exploração livre, tarefas guiadas e entrevista pós-sessão),
+e as dimensões de qualidade monitorizadas durante os testes. A avaliação
+qualitativa foi concebida para identificar problemas evidentes e recolher
+impressões genuínas de utilizadores novos. Os resultados detalhados são
+apresentados no capítulo seguinte.
+
+\blankpage
 
 % ======================= RESULTADOS ===============================
 \chapter{Resultados e Discussão}
 
-O protótipo encontra-se numa fase funcional avançada. Foram integrados três
-dinossauros animados, um cenário explorável e um sistema de UI diegética com
-três painéis por dinossauro, todos operacionais.
+\section{Introdução}
+
+Este capítulo apresenta os resultados obtidos ao longo do desenvolvimento e
+dos testes com utilizadores, discute as limitações identificadas no estado
+atual do protótipo e analisa de que forma os resultados validam ou questionam
+as decisões de design tomadas. O protótipo encontra-se numa fase funcional
+avançada, com os três dinossauros animados, cenário explorável e sistema de
+UI diegética com três painéis por dinossauro operacionais.
 
 \section{Resultados Técnicos}
 
@@ -795,28 +1340,73 @@ As principais funcionalidades implementadas e validadas são:
     \setlength\itemsep{0pt}
     \item Integração funcional dos três dinossauros (\textit{Stegosaurus},
           \textit{Pachycephalosaurus}, \textit{Velociraptor}) no cenário;
-    \item Animações e ciclos de comportamento com alternância aleatória;
-    \item Efeitos sonoros integrados nos dinossauros;
+    \item Ciclos de animação com alternância aleatória via \code{DinoAnimationCycle};
+    \item Sistema de deambulação autónoma por espécie (\code{StegoWander},
+          \code{PachyWander}, \code{RaptorWander}) baseado em
+          \code{CharacterController.Move()}, com comportamento de pausa-e-desvio,
+          \code{OverlapSphere} omnidirecional e território limitado por
+          \code{homeRadius};
+    \item Colisão física entre dinossauros sem escalada, via camada de física
+          \textit{Dino} e \code{stepOffset = 0.05f} no \textit{CharacterController};
+    \item Sistema de áudio completo: áudio ambiente 2D, sons periódicos por
+          espécie (\code{DinoAudio}) e sons sincronizados com animações
+          (\code{StateAudioBehaviour}) com áudio 3D espacial;
     \item Painéis educativos diegéticos implementados (Informação, Comparação
-          e Raio-X) para cada dinossauro;
-    \item Sistema de interação VR com mapeamento de botões (A/B/X);
+          e Raio-X) para cada dinossauro, com imagens de comparação de escala
+          e raio-X integradas;
+    \item Barreira de proximidade (\textit{ProximityWall}) que ativa ao abrir
+          o painel e impede o jogador de se aproximar em demasia do dinossauro;
+    \item Indicador visual (\textit{reticle}) que destaca em dourado quando o
+          utilizador aponta para um dinossauro interagível;
+    \item Sistema de interação VR reescrito para Meta Quest real via
+          \code{UnityEngine.XR.InputDevices}, com \textit{fallback} para o
+          XR Interaction Simulator;
     \item Gravidade e deteção de solo funcional via \code{GravityProvider};
-    \item Delimitação de área de jogo via \code{XRBoundsConstraint};
+    \item Delimitação de área de jogo com paredes físicas invisíveis, vedação
+          decorativa (\textit{PolygonPi}) e \code{XRBoundsConstraint} como
+          segunda linha de defesa;
+    \item Eventos de animação dos assets de terceiros sem recetor resolvidos
+          com guarda de limites de array em \code{StegaSoundEffects} e
+          \code{BoneheadSoundEffects};
     \item Estrutura modular que permite adicionar novos dinossauros e painéis.
 \end{itemize}
 
 \section{Resultados dos Testes com Utilizadores}
 
-Foram realizados dois testes informais com utilizadores sem experiência prévia
-em aplicações XR. Ambos os participantes conseguiram explorar o ambiente,
-identificar os dinossauros e abrir os painéis educativos sem instrução prévia.
+Foram realizados dois testes informais com utilizadores adultos sem experiência
+prévia em aplicações XR. Ambos os participantes conseguiram explorar o ambiente,
+identificar os três dinossauros e abrir os painéis educativos sem qualquer
+instrução prévia, o que valida a navegabilidade espontânea do protótipo.
 
-O feedback recolhido foi globalmente positivo, com destaque para a imersão
-do cenário e para a ideia de painéis junto aos dinossauros como forma de
-apresentar informação. Foram também identificados pontos de melhoria,
-nomeadamente a necessidade de indicações visuais mais claras sobre como
-interagir com cada dinossauro e a importância de ter conteúdo visual mais
-completo nos painéis de Comparação e Raio-X.
+Em termos de \textbf{usabilidade}, ambos os participantes descobriram a
+interação com os dinossauros de forma autónoma, embora com alguma hesitação
+inicial sobre qual o botão correto. Este resultado sugere a necessidade de um
+indicador visual (por exemplo, um ícone ou destaque no dinossauro apontado)
+que sinalize que o objeto é interagível antes de o utilizador pressionar o botão.
+
+Relativamente à \textbf{legibilidade}, os textos dos painéis foram considerados
+claros e bem dimensionados, com a informação suficientemente concisa para ser
+lida sem esforço excessivo. O posicionamento lateral do painel em relação ao
+dinossauro foi avaliado positivamente, uma vez que permite observar o animal
+e consultar a informação simultaneamente.
+
+Quanto à \textbf{presença e imersão}, ambos os participantes referiram
+espontaneamente a qualidade visual do cenário e dos dinossauros como pontos
+fortes da experiência. O comportamento autónomo dos dinossauros --- deambulação,
+ciclos de animação e sons --- foi identificado como um fator relevante para a
+sensação de estar num ambiente habitado.
+
+Os principais \textbf{pontos de melhoria} identificados foram:
+\begin{itemize}
+    \setlength\itemsep{0pt}
+    \item Ausência de indicações visuais claras sobre quais os objetos
+          interagíveis e como iniciar a interação;
+    \item Painéis de Comparação e Raio-X ainda sem conteúdo visual final,
+          o que reduziu o impacto educativo dessas vistas;
+    \item Desejo expresso de ouvir narração ou informação sonora sobre
+          cada dinossauro, reforçando a pertinência do audioguia previsto
+          como trabalho futuro.
+\end{itemize}
 
 \section{Limitações Identificadas}
 
@@ -825,18 +1415,39 @@ As principais limitações no estado atual são:
 \begin{itemize}
     \setlength\itemsep{0pt}
     \item Necessidade de otimização adicional para dispositivos VR standalone
-          (Meta Quest);
-    \item Conteúdo visual final dos painéis de Comparação e Raio-X ainda
-          em preparação;
-    \item Audioguia por espécie em implementação;
-    \item Alguns eventos de animação dos assets de terceiros referenciam
-          funções não implementadas, gerando avisos no console que serão
-          resolvidos na fase de polimento;
-    \item Testes em headset real (Meta Quest) não concluídos.
+          (Meta Quest): \textit{baking} de iluminação, LOD e redução de
+          \textit{draw calls} ainda por concluir;
+    \item Audioguia narrativo por espécie (narração informativa ao abrir o
+          painel) não implementado --- o sistema de áudio atual cobre sons
+          ambientes e comportamentais, mas não narração educativa;
+    \item Testes em headset real (Meta Quest) não concluídos --- gravidade,
+          áudio 3D, reticle e colisão do jogador devem ser validados
+          diretamente no dispositivo;
+    \item Conteúdo científico dos painéis sujeito a revisão de especialista
+          em paleontologia antes de uma versão pública.
 \end{itemize}
+
+\section{Síntese do Capítulo}
+
+Este capítulo apresentou os resultados técnicos obtidos e os resultados
+dos testes informais com utilizadores, identificando os principais pontos
+fortes do protótipo e as limitações que persistem. Os resultados confirmam
+a adequação geral da abordagem de UI diegética e do sistema de comportamento
+autónomo dos dinossauros, e apontam para as áreas prioritárias de
+desenvolvimento futuro descritas no capítulo seguinte.
+
+\blankpage
 
 % ======================= CONCLUSÕES ===============================
 \chapter{Conclusões e Trabalho Futuro}
+
+\section{Introdução}
+
+Este capítulo apresenta as conclusões do projeto \textit{PaleoLusa},
+sintetizando os principais resultados alcançados e as aprendizagens retiradas
+do processo de desenvolvimento. São também identificadas as perspetivas de
+trabalho futuro mais relevantes para evoluir o protótipo para uma versão
+completa e plenamente funcional.
 
 \section{Conclusões}
 
@@ -867,17 +1478,19 @@ Como trabalho a concluir e como perspetivas de desenvolvimento futuro, destacam-
 
 \begin{itemize}
     \setlength\itemsep{0pt}
-    \item Finalização do audioguia com narração por espécie (em curso);
-    \item Integração das imagens finais nos painéis de Raio-X e Comparação
-          (em curso);
-    \item Otimização adicional do cenário para dispositivos VR standalone;
-    \item \textit{Baking} de iluminação e redução de elementos pesados;
+    \item Implementação do audioguia narrativo por espécie (narração
+          informativa acionada ao abrir o painel educativo);
+    \item Otimização para Meta Quest standalone: \textit{baking} de
+          iluminação, LOD, redução de \textit{draw calls} e validação
+          de framerate no dispositivo real;
     \item Testes em headset real (Meta Quest) e ajustes decorrentes;
-    \item Resolução dos eventos de animação sem recetor nos assets de
-          terceiros;
+    \item Revisão científica do conteúdo dos painéis por especialista
+          em paleontologia;
     \item Expansão para novas espécies e novos pontos educativos;
     \item Avaliação formal com maior número de utilizadores.
 \end{itemize}
+
+\blankpage
 
 % ======================= BIBLIOGRAFIA ===============================
 \chapter*{Bibliografia}
@@ -901,6 +1514,36 @@ Como trabalho a concluir e como perspetivas de desenvolvimento futuro, destacam-
     \item Unity Technologies. \textit{XR Interaction Toolkit Documentation}.
     Disponível em:
     \url{https://docs.unity3d.com/Packages/com.unity.xr.interaction.toolkit@latest}
+\end{itemize}
+
+\blankpage
+
+% ======================= ASSETS UTILIZADOS =======================
+\chapter*{Assets Utilizados}
+\addcontentsline{toc}{chapter}{Assets Utilizados}
+
+Esta secção lista os pacotes de assets de terceiros utilizados no desenvolvimento
+do protótipo \textit{PaleoLusa}, adquiridos ou obtidos através da Unity Asset Store
+ou de outras fontes.
+
+\begin{itemize}
+
+    \item Ferocious Industries. \textit{PBR Dinosaurs --- Velociraptor}.
+    Unity Asset Store. Disponível em:
+    \url{https://assetstore.unity.com}
+
+    \item Ferocious Industries. \textit{PBR Dinosaurs --- Stegosaurus}.
+    Unity Asset Store. Disponível em:
+    \url{https://assetstore.unity.com}
+
+    \item Ferocious Industries. \textit{PBR Dinosaurs --- Pachycephalosaurus}.
+    Unity Asset Store. Disponível em:
+    \url{https://assetstore.unity.com}
+
+    \item PolygonPi. \textit{Fence Layout} (vedação por spline).
+    Unity Asset Store. Disponível em:
+    \url{https://assetstore.unity.com}
+
 \end{itemize}
 
 \end{document}

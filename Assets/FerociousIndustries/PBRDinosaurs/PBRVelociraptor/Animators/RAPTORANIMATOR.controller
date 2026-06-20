@@ -66,6 +66,20 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &-7361311349744784088
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 041924d184c332740814054c6d6bc113, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StateAudioBehaviour
+  clip: {fileID: 8300000, guid: f48624c31d02d1d49abf29fe7b2a70de, type: 3}
+  volume: 1
 --- !u!1102 &-7342786471478804538
 AnimatorState:
   serializedVersion: 6
@@ -203,7 +217,8 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 3939119250331443401}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 8066720720009054463}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -252,7 +267,8 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -3320900029397656880}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 5326771856607046930}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -306,7 +322,8 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -273237309174721859}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 6923989799779582691}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -414,6 +431,20 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &-2081982763474618214
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 041924d184c332740814054c6d6bc113, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StateAudioBehaviour
+  clip: {fileID: 8300000, guid: 067e3145c4179a4489f66f2ed8ae7d6b, type: 3}
+  volume: 1
 --- !u!1101 &-2068400703047244798
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -470,7 +501,8 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 6978098093916661410}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -32500410944410360}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -529,6 +561,20 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &-32500410944410360
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 041924d184c332740814054c6d6bc113, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StateAudioBehaviour
+  clip: {fileID: 8300000, guid: 553db0fb9205d254f96e8b4f684944dd, type: 3}
+  volume: 1
 --- !u!91 &9100000
 AnimatorController:
   m_ObjectHideFlags: 0
@@ -633,6 +679,34 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &1168269800041741596
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 041924d184c332740814054c6d6bc113, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StateAudioBehaviour
+  clip: {fileID: 8300000, guid: 7a3b4de075c314f469107d57d43931e4, type: 3}
+  volume: 1
+--- !u!114 &2002774284412984996
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 041924d184c332740814054c6d6bc113, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StateAudioBehaviour
+  clip: {fileID: 8300000, guid: f48624c31d02d1d49abf29fe7b2a70de, type: 3}
+  volume: 1
 --- !u!1102 &2103605363125707898
 AnimatorState:
   serializedVersion: 6
@@ -645,7 +719,8 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -2068400703047244798}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 2002774284412984996}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -672,7 +747,8 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 8413451038347482082}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -2081982763474618214}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -699,7 +775,8 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -3067232707465338620}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -7361311349744784088}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -801,10 +878,10 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 155760281954844672}
-    m_Position: {x: 270, y: -130, z: 0}
+    m_Position: {x: 0, y: -130, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6130834569636182820}
-    m_Position: {x: 0, y: -70, z: 0}
+    m_Position: {x: 0, y: -60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3830797450085330609}
     m_Position: {x: 0, y: 10, z: 0}
@@ -813,60 +890,60 @@ AnimatorStateMachine:
     m_Position: {x: 0, y: 80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4560818582162797452}
-    m_Position: {x: 0, y: 160, z: 0}
+    m_Position: {x: 0, y: 150, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7828746053872668556}
-    m_Position: {x: 0, y: 230, z: 0}
+    m_Position: {x: 0, y: 220, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3639054454321942699}
-    m_Position: {x: 260, y: 240, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -3288577028900756110}
-    m_Position: {x: 260, y: 160, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 521740264381794811}
-    m_Position: {x: 500, y: 30, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -7342786471478804538}
-    m_Position: {x: 0, y: 300, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -3323009943971082033}
-    m_Position: {x: 500, y: -60, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 2121614337602228778}
-    m_Position: {x: 500, y: 120, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -371399003361469887}
-    m_Position: {x: 900, y: -130, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -4801170228350619317}
-    m_Position: {x: 900, y: 30, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 7255269363507452128}
-    m_Position: {x: 260, y: 90, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 4454791759438422191}
-    m_Position: {x: 260, y: -60, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 3137315949628634736}
     m_Position: {x: 260, y: 10, z: 0}
   - serializedVersion: 1
+    m_State: {fileID: -3288577028900756110}
+    m_Position: {x: 260, y: 80, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 521740264381794811}
+    m_Position: {x: 520, y: -60, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -7342786471478804538}
+    m_Position: {x: 0, y: 290, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -3323009943971082033}
+    m_Position: {x: 260, y: -60, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 2121614337602228778}
+    m_Position: {x: 520, y: 10, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -371399003361469887}
+    m_Position: {x: 780, y: -130, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -4801170228350619317}
+    m_Position: {x: 780, y: 220, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 7255269363507452128}
+    m_Position: {x: 260, y: 150, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 4454791759438422191}
+    m_Position: {x: 260, y: 290, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 3137315949628634736}
+    m_Position: {x: 260, y: 220, z: 0}
+  - serializedVersion: 1
     m_State: {fileID: 2805226301402588793}
-    m_Position: {x: 900, y: 240, z: 0}
+    m_Position: {x: 520, y: 150, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3791130110833549118}
-    m_Position: {x: 520, y: 230, z: 0}
+    m_Position: {x: 520, y: 80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2103605363125707898}
-    m_Position: {x: 939.5531, y: 150.62119, z: 0}
+    m_Position: {x: 520, y: 220, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 1130, y: -160, z: 0}
-  m_EntryPosition: {x: 60, y: -130, z: 0}
-  m_ExitPosition: {x: 1130, y: -30, z: 0}
+  m_AnyStatePosition: {x: 420, y: -200, z: 0}
+  m_EntryPosition: {x: 20, y: -200, z: 0}
+  m_ExitPosition: {x: 800, y: -200, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 155760281954844672}
 --- !u!1102 &4454791759438422191
@@ -896,6 +973,20 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &4833331843708734932
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 041924d184c332740814054c6d6bc113, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StateAudioBehaviour
+  clip: {fileID: 8300000, guid: aec8cee1920f8864b97b641df045a030, type: 3}
+  volume: 1
 --- !u!1102 &5235641104240674614
 AnimatorState:
   serializedVersion: 6
@@ -908,7 +999,8 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -1408857300422274673}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 4833331843708734932}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -923,6 +1015,20 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &5326771856607046930
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 041924d184c332740814054c6d6bc113, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StateAudioBehaviour
+  clip: {fileID: 8300000, guid: f48624c31d02d1d49abf29fe7b2a70de, type: 3}
+  volume: 1
 --- !u!1101 &6329068286499590100
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -967,6 +1073,20 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &6923989799779582691
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 041924d184c332740814054c6d6bc113, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StateAudioBehaviour
+  clip: {fileID: 8300000, guid: 45ee50b23bd6b1a479571694c2b8b723, type: 3}
+  volume: 1
 --- !u!1101 &6978098093916661410
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1050,7 +1170,8 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -9046965729359271031}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 1168269800041741596}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1065,6 +1186,20 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &8066720720009054463
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 041924d184c332740814054c6d6bc113, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StateAudioBehaviour
+  clip: {fileID: 8300000, guid: 107118aa5cf46b8499f08327fc7f1675, type: 3}
+  volume: 1
 --- !u!1101 &8413451038347482082
 AnimatorStateTransition:
   m_ObjectHideFlags: 1

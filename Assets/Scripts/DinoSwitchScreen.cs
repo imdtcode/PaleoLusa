@@ -17,6 +17,10 @@ public class DinoPanelSwitcher : MonoBehaviour
     public Animator animator;
     public MonoBehaviour[] scriptsToDisable = new MonoBehaviour[0];
 
+    [Header("Barreira de Proximidade")]
+    [Tooltip("SphereCollider que bloqueia o jogador quando o painel está aberto.")]
+    public SphereCollider proximityWall;
+
     [Header("Teste PC")]
     public bool enableKeyboardDebugInput = true;
     public Key toggleKey = Key.T;
@@ -198,6 +202,9 @@ public class DinoPanelSwitcher : MonoBehaviour
                     scriptsToDisable[i].enabled = false;
             }
 
+            if (proximityWall != null)
+                proximityWall.enabled = true;
+
             isPausedByPanel = true;
             return;
         }
@@ -207,6 +214,9 @@ public class DinoPanelSwitcher : MonoBehaviour
 
         if (animator != null)
             animator.speed = cachedAnimatorSpeed;
+
+        if (proximityWall != null)
+            proximityWall.enabled = false;
 
         for (int i = 0; i < scriptsToDisable.Length; i++)
         {
