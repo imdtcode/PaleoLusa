@@ -18,8 +18,7 @@ public class RaptorWander : MonoBehaviour
     public float minWaitTime = 1.5f;
     public float maxWaitTime = 3f;
 
-    [Header("Integration")]
-    public DinoAnimationCycle animCycle;
+    private DinoAnimationCycle   animCycle;
 
     private Animator            _animator;
     private CharacterController _cc;
@@ -36,9 +35,32 @@ public class RaptorWander : MonoBehaviour
         _animator      = GetComponent<Animator>();
         _cc            = GetComponent<CharacterController>();
         _cc.stepOffset = 0.05f;
+        animCycle      = GetComponent<DinoAnimationCycle>();
     }
 
-    void Start() => _home = transform.position;
+    void Start()
+    {
+        _home = transform.position;
+        SnapToGroundOnStart();
+    }
+
+    void SnapToGroundOnStart()
+    {
+        // Disable CC first so its capsule doesn't block the downward raycast.
+        // Exclude the dino's own layer so child mesh colliders don't interfere.
+        _cc.enabled = false;
+        float ccBottomOffset = _cc.center.y - _cc.height * 0.5f;
+        Vector3 origin = transform.position + Vector3.up * Mathf.Max(2f, Mathf.Abs(ccBottomOffset) + 1f);
+        int excludeSelf = ~(1 << gameObject.layer);
+        if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, 15f, excludeSelf, QueryTriggerInteraction.Ignore))
+        {
+            Vector3 p = transform.position;
+            p.y = hit.point.y - ccBottomOffset;
+            transform.position = p;
+            _home = p;
+        }
+        _cc.enabled = true;
+    }
 
     void OnDisable()
     {
@@ -101,7 +123,7 @@ public class RaptorWander : MonoBehaviour
 
         // Detect other dinos in any direction (CC vs CC events are unreliable)
         int dinoMask = 1 << LayerMask.NameToLayer("Dino");
-        Collider[] nearbyDinos = Physics.OverlapSphere(transform.position + Vector3.up, 3f, dinoMask, QueryTriggerInteraction.Ignore);
+        Collider[] nearbyDinos = Physics.OverlapSphere(transform.position + Vector3.up, 1.5f, dinoMask, QueryTriggerInteraction.Ignore);
         foreach (var col in nearbyDinos)
         {
             if (col.transform == transform || col.transform.IsChildOf(transform)) continue;

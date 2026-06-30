@@ -126,6 +126,9 @@ public class DinoPanelSwitcher : MonoBehaviour
 
     private void ForceOpen()
     {
+        if (PauseMenuController.Instance != null && PauseMenuController.Instance.IsOpen)
+            return;
+
         if (openInstance != null && openInstance != this)
             openInstance.ForceClose();
 

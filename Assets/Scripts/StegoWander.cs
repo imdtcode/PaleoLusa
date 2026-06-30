@@ -18,8 +18,7 @@ public class StegoWander : MonoBehaviour
     public float minWaitTime = 1.5f;
     public float maxWaitTime = 3f;
 
-    [Header("Integration")]
-    public DinoAnimationCycle animCycle;
+    private DinoAnimationCycle   animCycle;
 
     private Animator            _animator;
     private CharacterController _cc;
@@ -36,9 +35,30 @@ public class StegoWander : MonoBehaviour
         _animator      = GetComponent<Animator>();
         _cc            = GetComponent<CharacterController>();
         _cc.stepOffset = 0.05f;
+        animCycle      = GetComponent<DinoAnimationCycle>();
     }
 
-    void Start() => _home = transform.position;
+    void Start()
+    {
+        _home = transform.position;
+        SnapToGroundOnStart();
+    }
+
+    void SnapToGroundOnStart()
+    {
+        _cc.enabled = false;
+        float ccBottomOffset = _cc.center.y - _cc.height * 0.5f;
+        Vector3 origin = transform.position + Vector3.up * Mathf.Max(2f, Mathf.Abs(ccBottomOffset) + 1f);
+        int excludeSelf = ~(1 << gameObject.layer);
+        if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, 15f, excludeSelf, QueryTriggerInteraction.Ignore))
+        {
+            Vector3 p = transform.position;
+            p.y = hit.point.y - ccBottomOffset;
+            transform.position = p;
+            _home = p;
+        }
+        _cc.enabled = true;
+    }
 
     void OnDisable()
     {

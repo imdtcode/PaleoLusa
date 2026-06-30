@@ -1,0 +1,28 @@
+IMAGENS NECESSÁRIAS PARA O RELATÓRIO (relatorio_paleolusa.tex)
+==============================================================
+
+As figuras não apareciam porque os ficheiros de imagem NÃO existiam.
+O LaTeX, quando não encontra a imagem, imprime o caminho do ficheiro
+em vez de a desenhar. A correção é colocar os ficheiros abaixo nesta
+pasta (screenshots/) e o logótipo na raiz do projeto.
+
+LOGÓTIPO (raiz do projeto, ao lado do .tex):
+  logo_ubi.jpg            -> Logótipo UBI / Departamento de Informática
+
+PASTA screenshots/ (esta pasta):
+  ambiente_geral.png      -> Fig. 5.2  Vista geral do ambiente jurássico
+  dinossauro_escala.png   -> Fig. 5.3  Dinossauro em escala real visto em VR
+  painel_info.png         -> Fig. 5.4  Painel diegético de Informação
+  painel_comparacao.png   -> Fig. 5.5  Painéis Comparação de Escala + Raio-X
+  reticle_destaque.png    -> Fig. 5.6  Reticle dourado ao apontar a um dino
+  menu_definicoes.png     -> Fig. 5.7  Menu de pausa e definições
+
+NOTAS:
+- Nomes e extensões têm de ser EXATAMENTE estes (minúsculas).
+- Capturar os screenshots da build final/polida. Em particular, o
+  painel_comparacao.png deve mostrar os modos Comparação de Escala e
+  Raio-X JÁ CONCLUÍDOS (com as imagens científicas integradas), pois o
+  texto do relatório foi atualizado para descrever esse trabalho como
+  terminado.
+- Em Unity: Window > General > Game, ou usar a tecla de captura, e
+  exportar em PNG. Recomenda-se largura >= 1600 px para boa nitidez.

@@ -18,11 +18,14 @@ public class DinoAnimationCycle : MonoBehaviour
     private float _timer;
     private bool _started;
 
+    void Awake()
+    {
+        // Always self-find so duplicated prefabs don't point to the original's Animator
+        animator = GetComponentInChildren<Animator>();
+    }
+
     void Start()
     {
-        if (animator == null)
-            animator = GetComponentInChildren<Animator>();
-
         if (animator != null && states.Length > 0)
             PlayCurrent();
     }

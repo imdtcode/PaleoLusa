@@ -110,6 +110,7 @@
     <Compile Include="Assets\Scripts\DinoSwitchScreen.cs" />
     <Compile Include="Assets\Scripts\NaturalWalkBehaviour.cs" />
     <Compile Include="Assets\Scripts\DinoWander.cs" />
+    <Compile Include="Assets\Scripts\SettingsButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TerrainDemoScene_URP\Notes\Stamps.txt" />

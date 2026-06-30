@@ -1,84 +1,38 @@
 using UnityEngine;
-using Unity.XR.CoreUtils;
 
 public class DinoPanelLookAtPlayer : MonoBehaviour
 {
-    [Header("Camera — drag the XR camera from inside XR Origin here")]
-    public Camera playerCamera;
-
-    [Header("Dinosaur — auto-set from parent if empty")]
-    public Transform dinosaur;
-
-    [Header("Position (above the dinosaur)")]
-    public float heightOffset = 1.5f;
-
-    [Header("Rotation")]
-    public float rotationSpeed = 10f;
-    [Tooltip("How much the panel tilts up/down to follow your gaze. 0 = no tilt, 1 = full gaze. 0.4 is a good default.")]
-    public float verticalGazeInfluence = 0.4f;
-    [Tooltip("Maximum tilt angle in degrees. Prevents extreme rotation when very close.")]
-    public float maxTiltDegrees = 65f;
-
-    void OnEnable()
-    {
-        if (playerCamera == null)
-            playerCamera = FindActiveCamera();
-    }
+    [Header("Position")]
+    [Tooltip("How far from the dino centre the panel sits (horizontal). Try 3-4 for large dinos.")]
+    public float orbitDistance = 3f;
+    [Tooltip("Fine-tune vertical offset from player eye height. 0 = exactly at eye level.")]
+    public float eyeHeightOffset = 0f;
 
     void LateUpdate()
     {
-        if (dinosaur == null && transform.parent != null)
-            dinosaur = transform.parent;
+        Camera cam = Camera.main;
+        Transform dino = transform.parent;   // DinoInfo is a child of the dino
 
-        if (playerCamera == null)
-            playerCamera = FindActiveCamera();
+        if (cam == null || dino == null) return;
 
-        if (playerCamera == null || dinosaur == null)
-            return;
+        // --- Place panel in front of dino, at player eye height ---
+        Vector3 toPlayer = cam.transform.position - dino.position;
+        toPlayer.y = 0f;
 
-        // Always directly above the dinosaur — no horizontal drift
-        transform.position = dinosaur.position + Vector3.up * heightOffset;
-
-        // Face the camera — close or far, the panel always points toward the player.
-        Vector3 toPlayer = playerCamera.transform.position - transform.position;
         if (toPlayer.sqrMagnitude > 0.001f)
         {
-            // Gaze influence — adds extra tilt when the player looks up or down
-            toPlayer.y -= playerCamera.transform.forward.y
-                        * toPlayer.magnitude * verticalGazeInfluence;
-
-            // Clamp so the panel never rotates past maxTiltDegrees from vertical
-            Vector3 flat = new Vector3(toPlayer.x, 0f, toPlayer.z);
-            float flatMag = flat.magnitude;
-            if (flatMag > 0.001f)
-            {
-                float maxY = flatMag * Mathf.Tan(maxTiltDegrees * Mathf.Deg2Rad);
-                toPlayer.y = Mathf.Clamp(toPlayer.y, -maxY, maxY);
-            }
-
-            Quaternion targetRot = Quaternion.LookRotation(toPlayer.normalized)
-                                 * Quaternion.Euler(0f, 180f, 0f);
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation, targetRot, Time.deltaTime * rotationSpeed);
+            Vector3 pos     = dino.position + toPlayer.normalized * orbitDistance;
+            pos.y           = cam.transform.position.y + eyeHeightOffset;
+            transform.position = pos;
         }
-    }
 
-    private static Camera FindActiveCamera()
-    {
-        XROrigin xrOrigin = Object.FindFirstObjectByType<XROrigin>();
-        if (xrOrigin != null)
+        // --- Face the player (no vertical tilt) ---
+        Vector3 faceDir = cam.transform.position - transform.position;
+        faceDir.y = 0f;
+        if (faceDir.sqrMagnitude > 0.001f)
         {
-            if (xrOrigin.Camera != null && xrOrigin.Camera.isActiveAndEnabled)
-                return xrOrigin.Camera;
-
-            Camera childCam = xrOrigin.GetComponentInChildren<Camera>();
-            if (childCam != null && childCam.isActiveAndEnabled)
-                return childCam;
+            transform.rotation = Quaternion.LookRotation(faceDir.normalized)
+                               * Quaternion.Euler(0f, 180f, 0f);
         }
-
-        if (Camera.main != null && Camera.main.isActiveAndEnabled)
-            return Camera.main;
-
-        return null;
     }
 }

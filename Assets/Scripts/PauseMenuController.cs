@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.XR.CoreUtils;
 
 // Attach to any persistent GameObject (e.g. XR Origin).
 // Requires a World Space Canvas assigned to menuCanvas.
@@ -12,8 +14,8 @@ public class PauseMenuController : MonoBehaviour
     [Header("Canvas")]
     public Canvas menuCanvas;
     public float distanceFromCamera = 1.8f;
-    [Tooltip("How fast the menu follows your head. Lower = more lag, feels natural. 0 = doesn't follow.")]
-    public float followSpeed = 4f;
+    [Tooltip("Vertical offset above camera position. Raise if menu appears too low.")]
+    public float heightOffset = 0.0f;
 
     [Header("Panels (children of the canvas)")]
     public GameObject mainPanel;
@@ -23,22 +25,27 @@ public class PauseMenuController : MonoBehaviour
     public Slider volumeSlider;
     public TextMeshProUGUI volumeLabel;
 
-    private Camera _cam;
+    [Header("VR Camera (optional override)")]
+    [Tooltip("Leave empty — auto-resolved from XROrigin. Fill only if camera lookup fails.")]
+    public Camera vrCamera;
+
+    private XROrigin _xrOrigin;
     private bool _open;
+    private readonly List<(GameObject obj, int layer)> _dinoLayers = new();
 
     public bool IsOpen => _open;
 
     void Awake()
     {
         Instance = this;
+        _xrOrigin = GetComponent<XROrigin>();
+        if (_xrOrigin == null) _xrOrigin = FindFirstObjectByType<XROrigin>();
         if (menuCanvas != null)
             menuCanvas.gameObject.SetActive(false);
     }
 
     void Start()
     {
-        _cam = Camera.main;
-
         if (volumeSlider != null)
         {
             volumeSlider.minValue = 0f;
@@ -51,21 +58,18 @@ public class PauseMenuController : MonoBehaviour
 
     void LateUpdate()
     {
-        if (!_open || menuCanvas == null || followSpeed <= 0f) return;
-        if (_cam == null) _cam = Camera.main;
-        if (_cam == null) return;
+        if (!_open || menuCanvas == null) return;
 
-        Vector3 forward = Vector3.ProjectOnPlane(_cam.transform.forward, Vector3.up);
-        if (forward.sqrMagnitude < 0.01f) forward = _cam.transform.forward;
+        Camera cam = GetVRCamera();
+        if (cam == null) return;
+
+        Vector3 forward = Vector3.ProjectOnPlane(cam.transform.forward, Vector3.up);
+        if (forward.sqrMagnitude < 0.01f) forward = cam.transform.forward;
         forward.Normalize();
 
-        Vector3   targetPos = _cam.transform.position + forward * distanceFromCamera;
-        Quaternion targetRot = Quaternion.LookRotation(forward);
-
-        menuCanvas.transform.position = Vector3.Lerp(
-            menuCanvas.transform.position, targetPos, Time.deltaTime * followSpeed);
-        menuCanvas.transform.rotation = Quaternion.Slerp(
-            menuCanvas.transform.rotation, targetRot, Time.deltaTime * followSpeed);
+        Vector3 targetPos = cam.transform.position + forward * distanceFromCamera;
+        targetPos.y = cam.transform.position.y + heightOffset;
+        menuCanvas.transform.SetPositionAndRotation(targetPos, Quaternion.LookRotation(forward));
     }
 
     // ── Called by Y / M key via VRInputHandler ───────────────────────────────
@@ -77,40 +81,49 @@ public class PauseMenuController : MonoBehaviour
 
     public void Open()
     {
-        if (_cam == null) _cam = Camera.main;
-
         _open = true;
         menuCanvas.gameObject.SetActive(true);
         ShowMain();
         PlaceInFrontOfCamera();
 
-        // Close any open dino panel so they don't overlap
         DinoPanelSwitcher.CloseOpenPanel();
+
+        // Move ONLY dino CCs to layer 2 (Ignore Raycast) so XR rays reach menu buttons.
+        // Filtering by "Dino" layer ensures the player's own CC is never touched.
+        int dinoLayer = LayerMask.NameToLayer("Dino");
+        _dinoLayers.Clear();
+        foreach (var cc in FindObjectsByType<CharacterController>(FindObjectsSortMode.None))
+        {
+            if (cc.gameObject.layer != dinoLayer) continue;
+            _dinoLayers.Add((cc.gameObject, cc.gameObject.layer));
+            cc.gameObject.layer = 2;
+        }
     }
 
     public void Close()
     {
         _open = false;
         menuCanvas.gameObject.SetActive(false);
+
+        foreach (var (obj, layer) in _dinoLayers)
+            if (obj != null) obj.layer = layer;
+        _dinoLayers.Clear();
     }
 
     // ── Button callbacks (wire in Inspector) ─────────────────────────────────
 
-    // "Instruções" button
     public void ShowInstructions()
     {
         if (mainPanel != null)        mainPanel.SetActive(false);
         if (instructionsPanel != null) instructionsPanel.SetActive(true);
     }
 
-    // "Voltar" button inside instructionsPanel
     public void ShowMain()
     {
         if (instructionsPanel != null) instructionsPanel.SetActive(false);
         if (mainPanel != null)         mainPanel.SetActive(true);
     }
 
-    // "Sair" button
     public void ExitApp()
     {
 #if UNITY_EDITOR
@@ -122,6 +135,35 @@ public class PauseMenuController : MonoBehaviour
 
     // ── Helpers ──────────────────────────────────────────────────────────────
 
+    private Camera GetVRCamera()
+    {
+        if (_xrOrigin != null && _xrOrigin.Camera != null && _xrOrigin.Camera.isActiveAndEnabled)
+            return _xrOrigin.Camera;
+        if (vrCamera != null) return vrCamera;
+        return Camera.main;
+    }
+
+    private void PlaceInFrontOfCamera()
+    {
+        Camera cam = GetVRCamera();
+        if (cam == null) return;
+
+        Vector3 forward = Vector3.ProjectOnPlane(cam.transform.forward, Vector3.up);
+        if (forward.sqrMagnitude < 0.01f) forward = Vector3.forward;
+        forward.Normalize();
+
+        Vector3 pos = cam.transform.position + forward * distanceFromCamera;
+        pos.y = cam.transform.position.y + heightOffset;
+        menuCanvas.transform.position = pos;
+        menuCanvas.transform.rotation = Quaternion.LookRotation(forward);
+    }
+
+    public void SyncVolumeUI(float value)
+    {
+        if (volumeSlider != null) volumeSlider.value = value;
+        UpdateVolumeLabel(value);
+    }
+
     private void OnVolumeChanged(float value)
     {
         AudioListener.volume = value;
@@ -132,18 +174,5 @@ public class PauseMenuController : MonoBehaviour
     {
         if (volumeLabel != null)
             volumeLabel.text = "Volume: " + Mathf.RoundToInt(value * 100) + "%";
-    }
-
-    private void PlaceInFrontOfCamera()
-    {
-        if (_cam == null) return;
-        Transform cam = _cam.transform;
-
-        Vector3 forward = Vector3.ProjectOnPlane(cam.forward, Vector3.up);
-        if (forward.sqrMagnitude < 0.01f) forward = Vector3.forward;
-        forward.Normalize();
-
-        menuCanvas.transform.position = cam.position + forward * distanceFromCamera;
-        menuCanvas.transform.rotation = Quaternion.LookRotation(forward);
     }
 }

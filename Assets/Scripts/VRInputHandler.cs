@@ -22,6 +22,10 @@ public class VRInputHandler : MonoBehaviour
     [Header("Menu Button (Simulator / Keyboard)")]
     public Key menuKey = Key.M;
 
+    [Header("Volume Control (triggers when menu open)")]
+    [Tooltip("Volume change per trigger press. 0.1 = 10% per step.")]
+    public float volumeStep = 0.1f;
+
     private Camera            _cam;
     private DinoPanelSwitcher _currentPointed;
 
@@ -30,7 +34,8 @@ public class VRInputHandler : MonoBehaviour
     private XRInputDevice _leftHand;
 
     // Previous frame states — needed to detect "just pressed" for XR devices
-    private bool _prevA, _prevB, _prevX, _prevY, _prevMenu;
+    private bool  _prevA, _prevB, _prevX, _prevY, _prevMenu;
+    private float _prevLeftTrigger, _prevRightTrigger;
 
     void Update()
     {
@@ -60,9 +65,12 @@ public class VRInputHandler : MonoBehaviour
             menuPressed |= Gamepad.current.startButton.wasPressedThisFrame
                         || Gamepad.current.buttonNorth.wasPressedThisFrame;
         }
-        // Keyboard fallback for menu
+        // Keyboard fallback for menu and A button (simulator testing)
         if (Keyboard.current != null)
+        {
             menuPressed |= Keyboard.current[menuKey].wasPressedThisFrame;
+            aPressed    |= Keyboard.current[Key.Space].wasPressedThisFrame;
+        }
 
         // --- Store previous states ---
         _prevA    = aHeld;
@@ -83,9 +91,42 @@ public class VRInputHandler : MonoBehaviour
             return;
         }
 
-        // Block all dino interaction while settings menu is open
+        // Settings menu is open — A activates pointed button, right stick adjusts volume
         if (PauseMenuController.Instance != null && PauseMenuController.Instance.IsOpen)
+        {
+            if (aPressed)
+                GetPointedSettingsButton()?.Press();
+
+            // Right trigger = volume up, left trigger = volume down (one step per press)
+            float rTrig = GetXRFloat(_rightHand, XRCommonUsages.trigger);
+            float lTrig = GetXRFloat(_leftHand,  XRCommonUsages.trigger);
+            if (Gamepad.current != null)
+            {
+                rTrig = Gamepad.current.rightTrigger.ReadValue();
+                lTrig = Gamepad.current.leftTrigger.ReadValue();
+            }
+
+            bool volUp   = rTrig > 0.7f && _prevRightTrigger <= 0.7f;
+            bool volDown = lTrig > 0.7f && _prevLeftTrigger  <= 0.7f;
+            _prevRightTrigger = rTrig;
+            _prevLeftTrigger  = lTrig;
+
+            // Keyboard fallback for XR Simulator (PageUp = right trigger, PageDown = left trigger)
+            if (Keyboard.current != null)
+            {
+                volUp   |= Keyboard.current[Key.PageUp].wasPressedThisFrame;
+                volDown |= Keyboard.current[Key.PageDown].wasPressedThisFrame;
+            }
+
+            if (volUp || volDown)
+            {
+                float newVol = Mathf.Clamp01(AudioListener.volume + (volUp ? volumeStep : -volumeStep));
+                AudioListener.volume = newVol;
+                PauseMenuController.Instance?.SyncVolumeUI(newVol);
+            }
+
             return;
+        }
 
         if (_cam == null) return;
 
@@ -129,12 +170,35 @@ public class VRInputHandler : MonoBehaviour
         return value;
     }
 
+    Vector2 GetXRAxis(XRInputDevice device, InputFeatureUsage<Vector2> usage)
+    {
+        if (!device.isValid) return Vector2.zero;
+        device.TryGetFeatureValue(usage, out Vector2 value);
+        return value;
+    }
+
+    float GetXRFloat(XRInputDevice device, InputFeatureUsage<float> usage)
+    {
+        if (!device.isValid) return 0f;
+        device.TryGetFeatureValue(usage, out float value);
+        return value;
+    }
+
     private DinoPanelSwitcher GetPointedDino()
     {
         if (_cam == null) return null;
         if (Physics.Raycast(_cam.transform.position, _cam.transform.forward,
                 out RaycastHit hit, rayDistance))
             return hit.collider.GetComponentInParent<DinoPanelSwitcher>();
+        return null;
+    }
+
+    private SettingsButton GetPointedSettingsButton()
+    {
+        if (_cam == null) return null;
+        if (Physics.Raycast(_cam.transform.position, _cam.transform.forward,
+                out RaycastHit hit, rayDistance))
+            return hit.collider.GetComponentInParent<SettingsButton>();
         return null;
     }
 
